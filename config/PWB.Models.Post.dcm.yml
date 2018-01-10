@@ -1,0 +1,33 @@
+# PWB.Models.Post.dcm.yml
+
+PWB\Models\Post:
+  type: entity
+  table: Post
+
+  id:
+    idPost:
+      associationKey: true
+      generator:
+        strategy: auto
+
+  oneToOne:
+    idPost:
+      targetEntity: Commentary
+      joinColumn:
+        name: idPost
+        referencedColumnName: idPost
+        onDelete: CASCADE
+
+    fields:
+    content:
+      type: text
+      column: content
+
+    postDate:
+      type: date
+      column: postDate
+
+    image:
+      type: string
+      lenght: 64
+      column: image

@@ -1,0 +1,36 @@
+# PWB.Models.User.dcm.yml
+
+PWB\Models\User:
+  type: entity
+  table: User
+
+  id:
+    pseudo:
+      type: string
+      length: 32
+
+  fields:
+
+    password:
+      type: string
+      length: 64
+      column: password
+
+    firstname:
+      type: string
+      length: 32
+      column: firstname
+
+    lastname:
+      type: string
+      length: 32
+      column: lastname
+
+    mail:
+      type: string
+      length: 256
+      column: mail
+
+    idAdmin:
+      type: boolean
+      column: isAdmin
