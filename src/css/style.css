@@ -1,0 +1,22 @@
+.cards_container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: auto;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 2%;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-left: solid lightgrey 1px;
+    border-right: solid lightgrey 1px;
+}
+
+#card_date{
+    position: absolute;
+    right: 10px;
+    color: whitesmoke;
+    width: auto;
+    height: auto;
+    font-size: 10px;
+}
