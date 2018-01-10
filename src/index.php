@@ -35,4 +35,18 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
 /* Define Routes */
 /*****************/
 
+/* HomePage */
+
+$app->get("/", "")->bind("");
+
+/* User */
+
+$app->get("/login", "PWB\\Controllers\\AuthController::")->bind('login');
+$app->get("/login", "PWB\\Controllers\\AuthController::")->bind('subscribe');
+
+/* Post */
+
+$app->get("/{idPost]", "")->bind("");
+$app->get("/edit/{idPost]", "")->bind("");
+
 $app->run();
