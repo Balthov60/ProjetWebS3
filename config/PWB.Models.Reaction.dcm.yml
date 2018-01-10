@@ -13,6 +13,11 @@ PWB\Models\Reaction:
       generator:
         strategy: auto
 
+    owner:
+      type: string
+      length: 32
+      column: owner
+
   fields:
     owner:
       type: string
