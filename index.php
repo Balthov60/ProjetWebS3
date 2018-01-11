@@ -20,4 +20,4 @@ $app->get('/', 'DUT\\controller\\TestController::displayHomepage')->bind('home')
 
 $app['debug'] = true;
 $app->run();
-?>
+
