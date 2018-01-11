@@ -1,6 +1,6 @@
-# PWB.Models.User.dcm.yml
+# DUT.Models.User.dcm.yml
 
-PWB\Models\User:
+DUT\Models\User:
   type: entity
   table: User
 

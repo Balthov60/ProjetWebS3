@@ -1,6 +1,6 @@
-# PWB.Models.Post.dcm.yml
+# DUT.Models.Post.dcm.yml
 
-PWB\Models\Post:
+DUT\Models\Post:
   type: entity
   table: Post
 

@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '../vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
@@ -30,23 +30,34 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/src/Views',
 ]);
 
-
 /*****************/
 /* Define Routes */
 /*****************/
 
 /* HomePage */
 
-$app->get("/", "")->bind("");
+$app->get('', 'DUT\\Controllers\\HomeController::displayHomePage')
+    ->bind('home');
 
 /* User */
 
-$app->get("/login", "PWB\\Controllers\\AuthController::")->bind('login');
-$app->get("/login", "PWB\\Controllers\\AuthController::")->bind('subscribe');
+$app->get('/login', 'DUT\\Controllers\\AuthController::displayLoginPage')
+    ->bind('login');
+
+$app->get("/subscribe", "DUT\\Controllers\\AuthController::displaySubscribePage")
+    ->bind('subscribe');
 
 /* Post */
 
-$app->get("/{idPost]", "")->bind("");
-$app->get("/edit/{idPost]", "")->bind("");
+$app->get("/{idPost}", "DUT\\Controllers\\PostController::displayPost")
+    ->bind("{idPost}");
 
+$app->get("/edit/{idPost]", "DUT\\Controllers\\PostController::displayPostEdition")
+    ->bind("edit/{idPost}")
+    ->before("DUT\\Controllers\\AuthController::isAdmin");
+
+
+$app["debug"] = true;
 $app->run();
+
+

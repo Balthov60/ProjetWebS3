@@ -1,6 +1,6 @@
 <?php
 
-namespace PWB\Models;
+namespace DUT\Models;
 
 
 class Commentary

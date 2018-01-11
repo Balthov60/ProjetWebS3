@@ -1,6 +1,6 @@
-# PWB.Models.Commentary.dcm.yml
+# DUT.Models.Commentary.dcm.yml
 
-PWB\Models\Commentary:
+DUT\Models\Commentary:
   type: entity
   table: Commentary
 

@@ -1,12 +1,9 @@
 <?php
 
-namespace PWB\Services;
+namespace DUT\Services;
 
 use Doctrine\ORM\EntityManager;
-use PWB\Models\Commentary;
-use PWB\Models\Post;
-use PWB\Models\Reaction;
-use PWB\Models\User;
+use DUT\Models\Commentary;
 use Silex\Application;
 
 class SQLServices

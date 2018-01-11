@@ -1,6 +1,6 @@
-# PWB.Models.Reaction.dcm.yml
+# DUT.Models.Reaction.dcm.yml
 
-PWB\Models\Reaction:
+DUT\Models\Reaction:
   type: entity
   table: Reaction
 
