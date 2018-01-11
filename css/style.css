@@ -36,6 +36,19 @@ nav
     color: #262626
 }
 
+/* Floating Button */
+
+.btn-floating
+{
+    background-color: #FFD245;
+}
+.btn-floating:hover
+{
+    background-color: #b4c3db;
+}
+
+/* Body */
+
 body
 {
     background-color: gray;
