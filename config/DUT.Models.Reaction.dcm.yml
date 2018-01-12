@@ -1,0 +1,30 @@
+# DUT.Models.Reaction.dcm.yml
+
+DUT\Models\Reaction:
+  type: entity
+  table: Reaction
+
+  id:
+    idCommentary:
+      associationKey: true
+
+    idReaction:
+      type: integer
+      generator:
+        strategy: auto
+
+    owner:
+      type: string
+      length: 32
+      column: owner
+
+  fields:
+    owner:
+      type: string
+      length: 32
+      column: owner
+
+    type:
+      type: string
+      length: 8
+      column: type

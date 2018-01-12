@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TP Projet Web</title>
+    <link href="{{ app.request.basepath }}/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div id="main-content">
+        {#% include "nav.twig" %}
+        {% block content %}
+        {% endblock %#}
+    </div>
+</body>

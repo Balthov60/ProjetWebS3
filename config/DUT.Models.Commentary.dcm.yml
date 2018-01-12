@@ -1,0 +1,32 @@
+# DUT.Models.Commentary.dcm.yml
+
+DUT\Models\Commentary:
+  type: entity
+  table: Commentary
+
+  id:
+    idPost:
+      associationKey: true
+
+    idCommentary:
+      type: integer
+      associationKey: true
+      generator:
+        strategy: auto
+
+  oneToOne:
+    idCommentary:
+      joinColumn: Reaction
+        name: idCommentary
+        referencedColumnName: idCommentary
+        onDelete: CASCADE
+
+  fields:
+    pseudo:
+      type: string
+      length: 32
+      column: pseudo
+
+    content:
+      type: text
+      column: content
