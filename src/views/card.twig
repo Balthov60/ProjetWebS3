@@ -1,12 +1,11 @@
 <div class="card-container z-depth-3">
         <div class="card">
-            <div class="card-image">
-                <img src="https://www.planwallpaper.com/static/images/wallpaper-11628192.jpg"/>
+            <div class="card-image small">
+                <img src="{{ card.getImage() }}"/>
                 <span class="card-title">Card Title</span>
             </div>
             <div class="card-content">
-                <p>I am a very simple card. I am good at containing small bits of information.
-                    I am convenient because I require little markup to use effectively.</p>
+                <p>{{ card.getText() }}</p>
             </div>
             <div class="card-action">
                 <a href="#">This is a link</a>

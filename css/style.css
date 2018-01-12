@@ -18,20 +18,35 @@ body
 
 .card-list-container
 {
-    width: 55%;
+    width: 100%;
     height: auto;
-    margin-left: 6%;
 }
 
 .card-container
 {
     margin-top: 50px;
-    width: 100%;
+    width: 55%;
+    overflow: hidden;
+    height: auto;
 }
 
 .card
 {
     margin-top: 0;
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.card-image
+{
+    max-height: 500px;
+    overflow: hidden;
+}
+
+.card-content
+{
+    max-height: 150px;
+    overflow: hidden;
 }
 
 .about-section
