@@ -16,6 +16,7 @@ $app = new Silex\Application();
 $app['connection'] = [ 'driver' => 'pdo_mysql', 'host' => 'localhost',
     'user' => 'root', 'password' => '', 'dbname' => 'blog-projet-web'];
 $app['doctrine_config'] = Setup::createYAMLMetadataConfiguration([__DIR__ . '/config'], true);
+
 $app['em'] = function ($app) {
     return EntityManager::create($app['connection'], $app['doctrine_config']);
 };
@@ -59,5 +60,3 @@ $app->get("/edit/{idPost]", "DUT\\Controllers\\PostController::displayPostEditio
 
 $app["debug"] = true;
 $app->run();
-
-
