@@ -1,3 +1,54 @@
+/* Font */
+
+@font-face {
+    font-family: Cinzel;
+    src: url("../res/fonts/Cinzel-Regular.otf");
+}
+
+/* Header */
+
+/* Override navbar size */
+nav, nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons, nav .button-collapse i {
+    height: 100px;
+    line-height: 100px;
+}
+nav .brand-logo {
+    font-size: 2rem;
+    margin-left: 50px;
+    font-family: Cinzel, serif;
+}
+
+nav
+{
+    background-color: #262626;
+    border-bottom: solid #FFD245 5px;
+}
+
+.nav-wrapper li a
+{
+    background-color: #FFD245;
+    color: #262626
+}
+
+.nav-wrapper li a:hover
+{
+    background-color: #b4c3db;
+    color: #262626
+}
+
+/* Floating Button */
+
+.btn-floating
+{
+    background-color: #FFD245;
+}
+.btn-floating:hover
+{
+    background-color: #b4c3db;
+}
+
+/* Body */
+
 body
 {
     background-color: gray;
