@@ -1,6 +1,6 @@
 <?php
 
-namespace DUT\model;
+namespace DUT\Models;
 
 class Card
 {
