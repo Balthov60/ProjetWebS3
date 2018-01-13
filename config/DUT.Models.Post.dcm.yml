@@ -6,17 +6,8 @@ DUT\Models\Post:
 
   id:
     idPost:
-      associationKey: true
       generator:
         strategy: auto
-
-  oneToOne:
-    idPost:
-      targetEntity: Commentary
-      joinColumn:
-        name: idPost
-        referencedColumnName: idPost
-        onDelete: CASCADE
 
   fields:
     title:
@@ -29,7 +20,8 @@ DUT\Models\Post:
       column: content
 
     postDate:
-      type: date
+      type: string
+      lenght: 10
       column: postDate
 
     image:
