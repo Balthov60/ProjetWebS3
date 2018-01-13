@@ -5,6 +5,10 @@
     src: url("../res/fonts/Cinzel-Regular.otf");
 }
 
+nav .brand-logo, h1, h2 {
+    font-family: Cinzel, serif;
+}
+
 /* Header */
 
 /* Override navbar size */
@@ -12,16 +16,17 @@ nav, nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons, nav 
     height: 100px;
     line-height: 100px;
 }
-nav .brand-logo {
-    font-size: 2rem;
-    margin-left: 50px;
-    font-family: Cinzel, serif;
-}
 
 nav
 {
     background-color: #262626;
     border-bottom: solid #FFD245 5px;
+}
+
+nav .brand-logo
+{
+    font-size: 2rem;
+    margin-left: 50px;
 }
 
 .nav-wrapper li a
@@ -32,7 +37,7 @@ nav
 
 .nav-wrapper li a:hover
 {
-    background-color: #b4c3db;
+    background-color: #ffe842;
     color: #262626
 }
 
@@ -44,41 +49,55 @@ nav
 }
 .btn-floating:hover
 {
-    background-color: #b4c3db;
+    background-color: #ffe842;
 }
 
 /* Body */
 
 body
 {
-    background-color: gray;
-    display: flex;
-    flex-direction: column;
+    background: url("../res/images/pyramide.jpg") fixed no-repeat;
+    background-size: cover;
 }
 
 .main-page
 {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     height: 100%;
-    width: 90%;
+    width: 75%;
     margin: 0 auto;
-    background-color: white;
+
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+
+    background-color: #FFFFFF99;
 }
+
+/* Cards */
 
 .card-list-container
 {
     width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.main-card-container
+{
+    width: 65%;
     height: auto;
+    margin: 50px;
+    overflow: hidden;
 }
 
 .card-container
 {
-    margin-top: 50px;
-    width: 55%;
-    overflow: hidden;
-    height: auto;
+    margin-top: 25px;
+    width: 45%;
+    height: 1100px;
 }
 
 .card
@@ -90,27 +109,75 @@ body
 
 .card-image
 {
-    max-height: 500px;
+    object-fit: cover;
+    height: 400px;
     overflow: hidden;
+}
+.card-title
+{
+    font-family: Cinzel sans-serif;
 }
 
 .card-content
 {
-    max-height: 150px;
+    height: 160px;
     overflow: hidden;
 }
 
+.card-action
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.card-action a
+{
+    margin: auto 0;
+    background: #FFD245;
+    color: #262626;
+}
+.card-action a:hover
+{
+    margin: auto 0;
+    background: #ffe842;
+    color: #262626;
+}
+
+/* About section */
+
 .about-section
 {
-    width: 25%;
-    position: absolute;
-    right: 30px;
-    margin-top: 10%;
-    border-left: solid 1px lightgray;
+    width: 30%;
+    margin-top: 7%;
+
     display: flex;
     flex-direction: column;
+
+    position: absolute;
+    right: 30px;
+
+    border-left: solid 1px #FFD245;
     background-color: white;
     padding-top: 20px;
+}
+
+.circle-img
+{
+    width: 75px;
+    height: 75px;
+
+    margin: 5%;
+}
+
+.title-container
+{
+    width: 100%;
+    display: flex;
+}
+
+.about-section-title
+{
+    font-size: 1.8em;
 }
 
 .about-section p
@@ -121,7 +188,7 @@ body
 .description-container
 {
     margin-left: 20px;
-    margin-top: 30px;
+    margin-top: 10px;
     width: 80%;
 }
 
@@ -130,27 +197,13 @@ body
     font-size: 0.8em;
     margin-left: 10px;
     margin-top: 10px;
-}
-
-.about-section-title
-{
-    font-size: 1.1em;
-    margin-top: 30px;
-}
-
-.circle-img
-{
-    position: absolute;
-    left: 20px;
-    top:20px;
-    width: 50px;
-    height: 50px;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .hobbies-container
 {
     margin-left: 20px;
-    margin-top:20px;
 }
 
 .hobbies-list li

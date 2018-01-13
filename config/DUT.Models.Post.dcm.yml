@@ -18,7 +18,12 @@ DUT\Models\Post:
         referencedColumnName: idPost
         onDelete: CASCADE
 
-    fields:
+  fields:
+    title:
+      type: string
+      lenght: 128
+      column: title
+
     content:
       type: text
       column: content

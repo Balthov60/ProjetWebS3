@@ -8,6 +8,7 @@ use DateTime;
 class Post
 {
     protected $idPost;
+    protected $title;
     protected $content;
     protected $postDate;
     protected $image;
@@ -16,13 +17,15 @@ class Post
      * Post constructor.
      *
      * @param $idPost
+     * @param $title
      * @param $content
      * @param $postDate
      * @param $image
      */
-    public function __construct($idPost, $content, $postDate, $image)
+    public function __construct($idPost, $title, $content, $postDate, $image)
     {
         $this->idPost = $idPost;
+        $this->title = $title;
         $this->content = $content;
         $this->postDate = $postDate;
         $this->image = $image;
@@ -35,6 +38,15 @@ class Post
     {
         return $this->idPost;
     }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
 
     /**
      * @return string

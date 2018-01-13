@@ -1,14 +1,15 @@
-<div class="card-container z-depth-3">
-        <div class="card">
-            <div class="card-image small">
-                <img src="{{ card.getImage() }}"/>
-                <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-                <p>{{ card.getText() }}</p>
-            </div>
-            <div class="card-action">
-                <a href="#">This is a link</a>
-            </div>
+<div class="card-container">
+    <div class="card">
+        <div class="card-image">
+            <img src="{{ post.getImage() }}"/>
+            <span class="card-title">{{ post.getTitle() }}</span>
         </div>
+        <div class="card-content">
+            <p>{{ post.getContent() }}</p>
+        </div>
+        <div class="card-action">
+            <p>{{ post.getPostDate() }}</p>
+            <a href="#" class="btn">Voir Plus</a>
+        </div>
+    </div>
 </div>
