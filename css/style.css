@@ -7,6 +7,8 @@
 
 nav .brand-logo, h1, h2 {
     font-family: Cinzel, serif;
+    font-size: 2em;
+    margin: 0;
 }
 
 /* Header */
@@ -265,4 +267,46 @@ body
 .icon
 {
     margin-right: 5px;
+}
+
+/* Post */
+
+.post
+{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+
+    margin: 25px 0;
+    padding: 10px;
+
+    border: 1px solid #FFD245;
+    border-radius: 15px;
+
+    background: #ffffff;
+}
+
+.post-image
+{
+    min-width: 50%;
+    max-height: 500px;
+
+    display: flex;
+    align-self: center;
+}
+
+.post-image img
+{
+    width: 100%;
+
+    border: 1px solid #262626;
+    border-radius: 15px;
+}
+
+.post-title
+{
+
+    display: flex;
+    align-self: center;
 }

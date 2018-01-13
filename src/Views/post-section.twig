@@ -1,0 +1,14 @@
+<div class="post">
+    <div class="post-image">
+        <img src="{{ app.request.basepath }}/res/images/{{ post.getImage() }}" />
+    </div>
+    <div class="post-title">
+        <h1>{{ post.getTitle() }}</h1>
+    </div>
+    <div class="post-content">
+        <p>{{ post.getContent() }}</p>
+    </div>
+    <div class="post-footer">
+        {{ post.getPostDate() }}
+    </div>
+</div>
