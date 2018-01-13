@@ -45,6 +45,9 @@ $app->get('', 'DUT\\Controllers\\HomeController::displayHomePage')
 $app->get('/login', 'DUT\\Controllers\\AuthController::displayLoginPage')
     ->bind('login');
 
+$app->post('/login', 'DUT\\Controllers\\AuthController::login')
+    ->bind('loginPost');
+
 $app->get("/subscribe", "DUT\\Controllers\\AuthController::displaySubscribePage")
     ->bind('subscribe');
 

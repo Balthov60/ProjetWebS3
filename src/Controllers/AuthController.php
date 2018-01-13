@@ -2,6 +2,7 @@
 
 namespace DUT\Controllers;
 
+use DUT\Services\SQLServices;
 use Silex\Application;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -10,11 +11,28 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AuthController
 {
-    public function displayLoginPage() {
-        return new Response("Login Page");
+    public function displayLoginPage(Application $app) {
+        $html = $app['twig']->render('login-page.twig');
+        return new Response($html);
     }
 
-    private function login() {
+    public function login(Request $request, Application $app) {
+        $firstname = htmlspecialchars($request->get('firstname', null));
+        $lastname = htmlspecialchars($request->get('lastname', null));
+        $password = htmlspecialchars($request->get('password', null));
+        $email = htmlspecialchars($request->get('email', null));
+
+        $sqlServices = new SQLServices($app);
+        if(empty($firstname) || empty($lastname) || empty($password) || empty($email))
+            $url = $app['url_generator']->generate('login');
+
+        else if ($sqlServices->userExist($firstname))
+            $url = $app['url_generator']->generate('home');
+
+        else
+            $url = $app['url_generator']->generate('login');
+
+        return $app->redirect($url);
 
     }
 

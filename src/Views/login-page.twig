@@ -1,0 +1,26 @@
+{% extends 'layout.twig' %}
+{% block body %}
+    <div class="form-container">
+        <div class="row">
+            <form class="col s12" method="post" action="{{ app.url_generator.generate('loginPost')}}">
+                <div class="row">
+                    <div class="col s12">
+                        <label for="username" >Nom d'utilisateur</label>
+                        <input id="username" type="text" class="validate" name="username">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <label for="password" >Mot de passe</label>
+                        <input id="password" type="password" class="validate" name="password">
+                    </div>
+                </div>
+                <div class="submit-container">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Se connecter
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
