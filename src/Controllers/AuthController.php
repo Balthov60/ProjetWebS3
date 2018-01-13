@@ -33,7 +33,6 @@ class AuthController
             $url = $app['url_generator']->generate('login');
 
         return $app->redirect($url);
-
     }
 
     public function displaySubscribePage() {
