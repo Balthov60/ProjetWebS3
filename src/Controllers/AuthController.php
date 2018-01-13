@@ -3,6 +3,7 @@
 namespace DUT\Controllers;
 
 use DUT\Services\SQLServices;
+use DUT\Models\User;
 use Silex\Application;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,7 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 class AuthController
 {
     public function displayLoginPage(Application $app) {
-        $html = $app['twig']->render('login-page.twig', ["errorMsg" => ""]);
+        session_start();
+        $html = $app['twig']->render('login-page.twig', ["errorMsg" => null]);
         return new Response($html);
     }
 
@@ -27,22 +29,33 @@ class AuthController
     }
 
     public function login(Request $request, Application $app) {
-        $username = htmlspecialchars($request->get('username', null));
+        $pseudo = htmlspecialchars($request->get('username', null));
         $password = htmlspecialchars($request->get('password', null));
+        $rememberMe = $request->get('remember-me', null);
 
         $sqlServices = new SQLServices($app);
-        if(is_null($username) || is_null($password))
-            $url = $app['url_generator']->generate('loginError', ["errorMsg" => "emptyField"]);
 
-        else if (!$sqlServices->userExistWithCorrectPassword($username, $password))
-            $url = $app['url_generator']->generate("loginError", ["errorMsg" => "unknownUser"]);
+        if(is_null($pseudo) || is_null($password))
+            $url = $app['url_generator']->generate('loginError', ["errorMsg" => $rememberMe]);
+
+        else if (!$sqlServices->userExistWithCorrectPassword($pseudo, md5($password)))
+            $url = $app['url_generator']->generate("loginError", ["errorMsg" => $rememberMe]);
 
         else
         {
+            $_SESSION["user"]["pseudo"] = $pseudo;
+            $_SESSION["user"]["password"] = $password;
             $_SESSION["user"]["connected"] = true;
-            if($sqlServices->isAdmin($username))
+
+            if($sqlServices->isAdmin($pseudo))
                 $_SESSION["user"]["isAdmin"] = true;
 
+            if(!is_null($rememberMe)) {
+                setcookie("pseudo", $pseudo, time() + 31 * 24 * 3600,
+                                        null, null, false, true);
+                setcookie("password", $password, time() + 31 * 24 * 3600,
+                                        null, null, false, true);
+            }
             $url = $app['url_generator']->generate('home');
         }
 
@@ -51,7 +64,8 @@ class AuthController
 
 
     public function displaySubscribePage(Application $app) {
-        $html = $app['twig']->render('suscribe-page.twig');
+        session_start();
+        $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => null]);
         return new Response($html);
     }
 
@@ -65,18 +79,19 @@ class AuthController
     public function subscribe(Request $request, Application $app) {
         $firstname = htmlspecialchars($request->get('firstname', null));
         $lastname = htmlspecialchars($request->get('lastname', null));
-        $pseudo = htmlspecialchars($request->get('pseudo', null));
+        $pseudo = htmlspecialchars($request->get('username', null));
         $password = htmlspecialchars($request->get('password', null));
         $mail = htmlspecialchars($request->get('mail', null));
 
+        $user = new User($pseudo, md5($password), $firstname, $lastname, $mail, 0);
         $sqlService = new SQLServices($app);
 
-        if(empty($firstname) || empty($lastname) || empty($pseudo) || empty($password) || empty($mail))
+        if($sqlService->userExist($user->getPseudo()))
             $url = $app['url_generator']->generate('subscribeError', ["errorMsg" => "emptyField"]);
 
         else
         {
-            $sqlService->addEntity(new User($pseudo, $password, $firstname, $lastname, $mail));
+            $sqlService->addEntity($user);
             $url = $app['url_generator']->generate('login');
         }
 

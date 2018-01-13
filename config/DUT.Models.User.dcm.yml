@@ -2,7 +2,7 @@
 
 DUT\Models\User:
   type: entity
-  table: User
+  table: user
 
   id:
     pseudo:
