@@ -293,7 +293,8 @@ body
 .form-container button
 {
     position: relative;
-    margin: 0 auto;
+    margin: 20px auto;
+    margin-bottom: 10px;
     width: auto;
     background-color: #FFD245;
 }
@@ -301,5 +302,12 @@ body
 .form-container button:hover
 {
     background-color: #ffe842;
+}
+
+.error-msg
+{
+    margin: 0 auto;
+    margin-bottom: 30px;
+    color: red;
 }
 

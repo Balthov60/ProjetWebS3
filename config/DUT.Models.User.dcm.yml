@@ -31,6 +31,6 @@ DUT\Models\User:
       length: 256
       column: mail
 
-    idAdmin:
+    isAdmin:
       type: boolean
       column: isAdmin
