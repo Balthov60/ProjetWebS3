@@ -95,7 +95,7 @@ class SQLServices
      */
     public function getLastPosts() {
         $repository = $this->entityManager->getRepository("DUT\\Models\\Post");
-        return $repository->findBy(array(), array(), 10);
+        return $repository->findBy([], ["idPost" => "DESC"], 10);
     }
 
     /**
