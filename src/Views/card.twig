@@ -1,8 +1,8 @@
 <div class="card-container">
     <div class="card">
         <div class="card-image">
-            <img src="{{ post.getImage() }}"/>
-            <span class="card-title">{{ post.getTitle() }}</span>
+            <img src="{{ app.request.basepath }}/res/images/{{ post.getImage() }}"/>
+            <span class="card-title card-title-modified"><p>{{ post.getTitle() }}</p></span>
         </div>
         <div class="card-content">
             <p>{{ post.getContent() }}</p>
