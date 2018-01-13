@@ -1,7 +1,7 @@
 <div class="main-card-container z-depth-3">
     <div class="card">
         <div class="card-image small">
-            <img src="{{ mainPost.getImage() }}"/>
+            <img src="{{ app.request.basepath }}/res/images/{{ mainPost.getImage() }}"/>
             <span class="card-title">{{ mainPost.getTitle() }}</span>
         </div>
         <div class="card-content">

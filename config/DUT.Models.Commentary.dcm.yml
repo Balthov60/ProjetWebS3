@@ -14,13 +14,6 @@ DUT\Models\Commentary:
       generator:
         strategy: auto
 
-  oneToOne:
-    idCommentary:
-      joinColumn: Reaction
-        name: idCommentary
-        referencedColumnName: idCommentary
-        onDelete: CASCADE
-
   fields:
     pseudo:
       type: string
