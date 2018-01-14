@@ -50,13 +50,15 @@ $app->get("/subscribe", "DUT\\Controllers\\AuthController::displaySubscribePage"
 
 /* Post */
 
+$app->get("/posts", "DUT\\Controllers\\PostController::displayAllPosts")
+    ->bind("allPosts");
+
 $app->get("/{idPost}", "DUT\\Controllers\\PostController::displayPost")
     ->bind("{idPost}");
 
 $app->get("/edit/{idPost]", "DUT\\Controllers\\PostController::displayPostEdition")
     ->bind("edit/{idPost}")
     ->before("DUT\\Controllers\\AuthController::isAdmin");
-
 
 $app["debug"] = true;
 $app->run();

@@ -10,6 +10,8 @@ namespace DUT\Controllers;
 
 
 use Symfony\Component\HttpFoundation\Response;
+use Silex\Application;
+use DUT\Services\SQLServices;
 
 class PostController
 {
@@ -19,5 +21,14 @@ class PostController
 
     public function displayPostEdition($idPost) {
         return new Response("Edit Post n$idPost");
+    }
+
+    public function displayAllPosts(Application $app)
+    {
+        $sqlServices = new SQLServices($app);
+        $posts = $sqlServices->getAllPosts();
+
+        $html = $app['twig']->render('list-all-cards.twig', ['posts' => $posts]);
+        return new Response($html);
     }
 }

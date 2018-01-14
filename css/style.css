@@ -177,6 +177,36 @@ body
     color: #262626;
 }
 
+.all-cards-list-container
+{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: auto;
+    margin: 0 auto;
+    background-color: rgba(236, 236, 236, 0.85);
+}
+
+.section
+{
+    width: 80%;
+    height: auto;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+
+    padding: 0;
+}
+
+.divider
+{
+    margin: 0 auto;
+    width: 60%;
+    background-color: rgba(0,0,0,0.83);
+}
+
 /* About section */
 
 .about-section

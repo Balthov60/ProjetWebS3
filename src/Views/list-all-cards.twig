@@ -1,0 +1,11 @@
+{% extends 'layout.twig' %}
+{% block body %}
+    <div class="all-cards-list-container z-depth-3">
+        {% for post in posts %}
+            <div class="section">
+                {% include 'card.twig' %}
+            </div>
+            <div class="divider"></div>
+        {% endfor %}
+    </div>
+{% endblock body %}
