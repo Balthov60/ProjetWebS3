@@ -4,6 +4,7 @@ namespace DUT\Services;
 
 use Doctrine\ORM\EntityManager;
 use DUT\Models\Commentary;
+use DUT\Models\Post;
 use Silex\Application;
 
 class SQLServices
@@ -54,7 +55,7 @@ class SQLServices
      * @return boolean
      */
     public function userExistWithCorrectPassword($username, $password) {
-        $repository = $this->entityManager->getRepository("User");
+        $repository = $this->entityManager->getRepository("DUT\\Models\\User");
         $user = $repository->find($username);
 
         return (isset($user) && $user->getPassword() == $password);
@@ -68,7 +69,7 @@ class SQLServices
      */
     public function userExist($username)
     {
-        $repository = $this->entityManager->getRepository("User");
+        $repository = $this->entityManager->getRepository("DUT\\Models\\User");
         $user = $repository->find($username);
 
         return (isset($user));
@@ -80,12 +81,31 @@ class SQLServices
 
     /**
      * @param $idPost integer
+     * @return Post
+     */
+    public function getPostById($idPost) {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Post");
+        return $repository->find($idPost);
+    }
+
+    /**
+     * return 10 last posts added by the user;
+     *
+     * @return array(Post)
+     */
+    public function getLastPosts() {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Post");
+        return $repository->findBy([], ["idPost" => "DESC"], 10);
+    }
+
+    /**
+     * @param $idPost integer
      *
      * @return void
      */
     public function removePost($idPost)
     {
-        $repository = $this->entityManager->getRepository("Post");
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Post");
         $item = $repository->find($idPost);
 
         if (isset($item)) {
@@ -106,7 +126,7 @@ class SQLServices
     {
         /** @var Commentary $item */
 
-        $repository = $this->entityManager->getRepository("Commentary");
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Commentary");
         $items = $repository->findBy(["idPost" => $idPost]);
 
         if (isset($items)) {
@@ -130,7 +150,7 @@ class SQLServices
      */
     public function removeReactionFor($idPost, $idComment)
     {
-        $repository = $this->entityManager->getRepository("Reaction");
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Reaction");
         $items = $repository->findBy(["idPost" => $idPost, "idComment" => $idComment]);
 
         if (isset($items)) {
