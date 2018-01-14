@@ -14,7 +14,11 @@ class AuthController
 {
     public function displayLoginPage(Application $app) {
         session_start();
-        $html = $app['twig']->render('login-page.twig', ["errorMsg" => null]);
+        if(isset($_COOKIE['pseudo']))
+            return $app->redirect($app['url_generator']->generate("home"));
+
+        else
+            $html = $app['twig']->render('login-page.twig', ["errorMsg" => null]);
         return new Response($html);
     }
 
@@ -22,6 +26,7 @@ class AuthController
     {
         if($errorMsg == "emptyField")
             $html = $app['twig']->render('login-page.twig', ["errorMsg" => "Tous les champs doivent être remplis !"]);
+
         else if($errorMsg == "unknownUser")
             $html = $app['twig']->render('login-page.twig', ["errorMsg" => "Nom d'utilisateur ou mot de passe invalide"]);
 
@@ -35,11 +40,11 @@ class AuthController
 
         $sqlServices = new SQLServices($app);
 
-        if(is_null($pseudo) || is_null($password))
-            $url = $app['url_generator']->generate('loginError', ["errorMsg" => $rememberMe]);
+       if(is_null($pseudo) || is_null($password))
+            $url = $app['url_generator']->generate('loginError', ["errorMsg" => "emptyField"]);
 
         else if (!$sqlServices->userExistWithCorrectPassword($pseudo, md5($password)))
-            $url = $app['url_generator']->generate("loginError", ["errorMsg" => $rememberMe]);
+            $url = $app['url_generator']->generate("loginError", ["errorMsg" => "unknownUser"]);
 
         else
         {
@@ -53,10 +58,10 @@ class AuthController
             if(!is_null($rememberMe)) {
                 setcookie("pseudo", $pseudo, time() + 31 * 24 * 3600,
                                         null, null, false, true);
-                setcookie("password", $password, time() + 31 * 24 * 3600,
+                setcookie("password", md5($password), time() + 31 * 24 * 3600,
                                         null, null, false, true);
             }
-            $url = $app['url_generator']->generate('home');
+            $url = $app['url_generator']->generate("home");
         }
 
         return $app->redirect($url);
