@@ -1,11 +1,15 @@
 {% extends 'layout.twig' %}
 {% block body %}
     <div class="all-cards-list-container">
-        <label for="order-by">Trier les posts : </label>
-        <select id="order-by">
-            <option>Du plus récent au plus vieux</option>
-            <option>Du plus vieux au plus récent</option>
-        </select>
+        <form class="order-by-container" method="post" action="{{ app.url_generator.generate("orderPostsBy") }}">
+            <p>Trier les posts : </p>
+            <select id="order-by" name="orderBy">
+                <option value="lastToOld">Du plus récent au plus vieux</option>
+                <option value="oldToLast">Du plus vieux au plus récent</option>
+            </select>
+            <button type="submit" class="waves-effect waves-light btn" name="submit">Trier</button>
+        </form>
+
        <ul class="collection">
             {% for post in posts %}
                 {% include "card-list-item.twig" %}

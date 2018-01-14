@@ -93,9 +93,9 @@ class SQLServices
      *
      * @return Post[]
      */
-    public function getAllPosts() {
+    public function getAllPosts($orderBy) {
         $repository = $this->entityManager->getRepository("DUT\\Models\\Post");
-        return $repository->findAll();
+        return $repository->findBy([], ["idPost" => $orderBy]);
     }
 
     /**

@@ -53,6 +53,9 @@ $app->get("/subscribe", "DUT\\Controllers\\AuthController::displaySubscribePage"
 $app->get("/posts", "DUT\\Controllers\\PostController::displayAllPosts")
     ->bind("allPosts");
 
+$app->post("/posts", "DUT\\Controllers\\PostController::orderPostsBy")
+    ->bind("orderPostsBy");
+
 $app->get("/{idPost}", "DUT\\Controllers\\PostController::displayPost")
     ->bind("{idPost}");
 

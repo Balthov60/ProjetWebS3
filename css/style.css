@@ -177,6 +177,8 @@ body
     color: #262626;
 }
 
+/* List all posts */
+
 .all-cards-list-container
 {
     display: flex;
@@ -190,7 +192,7 @@ body
 .collection
 {
     width: 90%;
-    margin: 50px auto;
+    margin: 20px auto;
 }
 
 .item-date
@@ -217,6 +219,44 @@ body
     color: #FFD245;
 }
 
+select
+{
+    width: 20%;
+    margin: 20px auto;
+}
+
+.order-by-container
+{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    margin: 20px auto;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-by-container select
+{
+    width: 40%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.order-by-container button
+{
+    background-color: #FFD245;
+}
+
+.order-by-container button:hover
+{
+    background-color: #ffe842;
+}
+
+
+/* Side navbar */
+
+
 .side-nav
 {
     background-color: #262626;
@@ -235,11 +275,6 @@ body
     color: #FFD245;
 }
 
-select
-{
-    width: 20%;
-    margin: 20px auto;
-}
 
 /* About section */
 
