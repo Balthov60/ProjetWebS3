@@ -5,14 +5,14 @@ DUT\Models\Commentary:
   table: Commentary
 
   id:
-    idPost:
-      associationKey: true
-
     idCommentary:
       type: integer
       associationKey: true
       generator:
         strategy: auto
+
+    idPost:
+      type: integer
 
   fields:
     pseudo:
@@ -23,3 +23,8 @@ DUT\Models\Commentary:
     content:
       type: text
       column: content
+
+    postDate:
+      type: string
+      lenght: 10
+      column: postDate

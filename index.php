@@ -31,6 +31,15 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/src/Views',
 ]);
 
+/*********************/
+/* Init Session Data */
+/*********************/
+
+$_SESSION["user"]["username"] = "";
+$_SESSION["user"]["isConnected"] = false;
+$_SESSION["user"]["isAdmin"] = true;
+
+
 /*****************/
 /* Define Routes */
 /*****************/

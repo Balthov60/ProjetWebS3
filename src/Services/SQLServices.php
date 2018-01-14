@@ -138,6 +138,24 @@ class SQLServices
         }
     }
 
+    /**
+     * return all commentary for a post.
+     *
+     * @param $idPost
+     * @return array
+     */
+    public function getCommentaryForPost($idPost)
+    {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Commentary");
+        $items = $repository->findBy(["idPost" => $idPost]);
+
+        if (!isset($items)) {
+            $items = [];
+        }
+
+        return $items;
+    }
+
     /*******************/
     /* Reaction Linked */
     /*******************/
