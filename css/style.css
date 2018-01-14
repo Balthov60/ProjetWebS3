@@ -216,6 +216,31 @@ body
     font-size: 30px;
     color: #FFD245;
 }
+
+.side-nav
+{
+    background-color: #262626;
+    padding-top: 50px;
+}
+
+.side-nav li a
+{
+    font-size: 1.2em;
+    color: #FFD245;
+}
+
+.side-nav i
+{
+    font-size: 30px;
+    color: #FFD245;
+}
+
+select
+{
+    width: 20%;
+    margin: 20px auto;
+}
+
 /* About section */
 
 .about-section
