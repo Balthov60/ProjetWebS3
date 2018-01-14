@@ -28,7 +28,7 @@ class PostController
         $sqlServices = new SQLServices($app);
         $posts = $sqlServices->getAllPosts();
 
-        $html = $app['twig']->render('list-all-cards.twig', ['posts' => $posts]);
+        $html = $app['twig']->render('list-all-cards.twig', ['posts' => $posts, 'isAdmin' => true]);
         return new Response($html);
     }
 }

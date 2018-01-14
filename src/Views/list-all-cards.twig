@@ -1,11 +1,19 @@
 {% extends 'layout.twig' %}
 {% block body %}
-    <div class="all-cards-list-container z-depth-3">
-        {% for post in posts %}
-            <div class="section">
-                {% include 'card.twig' %}
-            </div>
-            <div class="divider"></div>
-        {% endfor %}
+    <div class="all-cards-list-container">
+        <div class="input-field col s12">
+            <select>
+                <option value="" disabled selected>Trier les posts</option>
+                <option value="1">Du plus ancien au plus récent</option>
+                <option value="2">Du plus récent au plus vieux</option>
+                <option value="3">Option 3</option>
+            </select>
+            <label>Materialize Select</label>
+        </div>
+       <ul class="collection">
+            {% for post in posts %}
+                {% include "card-list-item.twig" %}
+            {% endfor %}
+        </ul>
     </div>
 {% endblock body %}
