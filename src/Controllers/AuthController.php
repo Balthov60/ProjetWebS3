@@ -10,8 +10,17 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 
+
 class AuthController
 {
+
+    const _USERNAME_TOO_SMALL = "Le nom d'utilisateur est trop petit";
+    const _USERNAME_TOO_BIG = "Le nom d'utilisateur est trop grand";
+    const _MAIL_ALREADY_EXISTS = "Cette adresse mail est déjà associé à un compte ";
+    const _USERNAME_ALREADY_EXISTS = "Ce nom d'utilisateur est déjà associé à un compte ";
+    const _CONFIRMATION_PASSWORD = "La confirmation de mot de passe ne correspond pas au mot de passe";
+    const _PASSWORD_TOO_SMALL = "Le mot de passe est trop court";
+
     public function displayLoginPage(Application $app) {
         session_start();
         $isConnected = isset($_SESSION["user"]["isConnected"]) ? $_SESSION["user"]["isConnected"] : null;
@@ -107,31 +116,92 @@ class AuthController
 
     public function displaySubscribePageErrorMsg($errorMsg, Application $app)
     {
-        if($errorMsg == "emptyField")
-            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => "Tous les champs doivent être remplis!"]);
+        if($errorMsg == "usernameTooSmall")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_TOO_SMALL]);
+
+        elseif ($errorMsg == "usernameTooBig")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_TOO_BIG]);
+
+        elseif ($errorMsg == "mailAlreadyExist")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _MAIL_ALREADY_EXISTS]);
+
+        elseif ($errorMsg == "usernameAlreadyExist")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_ALREADY_EXISTS]);
+
+        elseif ($errorMsg == "confirmationPassword")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _CONFIRMATION_PASSWORD]);
+
+        elseif ($errorMsg == "passwordTooSmall")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _PASSWORD_TOO_SMALL]);
+
         return new Response($html);
     }
 
     public function subscribe(Request $request, Application $app) {
-        $firstname = htmlspecialchars($request->get('firstname', null));
-        $lastname = htmlspecialchars($request->get('lastname', null));
-        $pseudo = htmlspecialchars($request->get('username', null));
-        $password = htmlspecialchars($request->get('password', null));
-        $mail = htmlspecialchars($request->get('mail', null));
+        if(isset($_POST['mail']) && isset($_POST['username']) &&
+            isset($_POST['password']) && isset($_POST['password-confirmation']))
+        {
+            $this->initSession();
 
-        $user = new User($pseudo, md5($password), $firstname, $lastname, $mail, 0);
-        $sqlService = new SQLServices($app);
+            /* Test if data format is valid */
 
-        if($sqlService->userExist($user->getPseudo()))
-            $url = $app['url_generator']->generate('subscribeError', ["errorMsg" => "emptyField"]);
+            if (strlen($_POST['username']) < 6) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "usernameTooSmall"]);
+                return;
+            }
+            if (strlen($_POST['username']) > 16) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "usernameTooBig"]);
+                return;
+            }
 
+            /* Test if IDs are available */
+
+            include('../classes/SQLServices.php');
+            include('../includes/variables.inc.php');
+            $dbHandler = new SQLServices($app);
+
+            if ($dbHandler->mailExist($_POST['mail'])) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "mailAlreadyExist"]);
+                return;
+            }
+            if ($dbHandler->userExist($_POST['username'])) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "usernameAlreadyExist"]);
+                return;
+            }
+
+            /* Test if Password are valid */
+
+            if (strcmp($_POST['password'], $_POST['password-confirmation']) != 0) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "confirmationPassword"]);
+                return;
+            }
+            if (strlen($_POST['password']) < 8) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "passwordTooSmall"]);
+                return;
+            }
+
+            /* If all test succeed, create a new user */
+
+            $dbHandler->addEntity(new User($_POST['username'],
+                        md5($_POST['password'],
+                            $_POST['firstname'],
+                            $_POST['lastname'],
+                            $_POST['mail'],
+                            0)));
+
+            $url = $app["url_generator"]->generate("login");
+        }
         else
         {
-            $sqlService->addEntity($user);
-            $url = $app['url_generator']->generate('login');
+            session_destroy();
+            session_start();
+            header('Location:../index.php');
         }
+    }
 
-        return $app->redirect($url);
+    private function initSession() {
+        $_SESSION["form"]["mail"] = $_POST["mail"];
+        $_SESSION["form"]["username"] = $_POST["username"];
     }
 
 
