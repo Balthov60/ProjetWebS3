@@ -14,58 +14,89 @@ class AuthController
 {
     public function displayLoginPage(Application $app) {
         session_start();
-        if(isset($_COOKIE['pseudo']))
-            return $app->redirect($app['url_generator']->generate("home"));
+        $isConnected = isset($_SESSION["user"]["isConnected"]) ? $_SESSION["user"]["isConnected"] : null;
+        $isAdmin = isset($_SESSION["user"]["isAdmin"]) ? $_SESSION["user"]["isAdmin"] : null;
 
-        else
-            $html = $app['twig']->render('login-page.twig', ["errorMsg" => null]);
+        $pseudo = (isset($_COOKIE['pseudo'])) ? $_COOKIE['pseudo'] : null;
+
+        $html = $app['twig']->render('login-page.twig', ["errorMsg" => null,
+                                                        "isConnected" => $isConnected,
+                                                        "isAdmin" => $isAdmin,
+                                                        "pseudo" => $pseudo]);
         return new Response($html);
     }
 
-    public function displayLoginPageWithErrorMsg($errorMsg, Application $app)
+    public function displayLoginPageWithErrorMsg($error, Application $app)
     {
-        if($errorMsg == "emptyField")
-            $html = $app['twig']->render('login-page.twig', ["errorMsg" => "Tous les champs doivent être remplis !"]);
-
-        else if($errorMsg == "unknownUser")
+       if($error == "invalidID")
             $html = $app['twig']->render('login-page.twig', ["errorMsg" => "Nom d'utilisateur ou mot de passe invalide"]);
 
         return new Response($html);
     }
 
-    public function login(Request $request, Application $app) {
-        $pseudo = htmlspecialchars($request->get('username', null));
-        $password = htmlspecialchars($request->get('password', null));
-        $rememberMe = $request->get('remember-me', null);
-
-        $sqlServices = new SQLServices($app);
-
-       if(is_null($pseudo) || is_null($password))
-            $url = $app['url_generator']->generate('loginError', ["errorMsg" => "emptyField"]);
-
-        else if (!$sqlServices->userExistWithCorrectPassword($pseudo, md5($password)))
-            $url = $app['url_generator']->generate("loginError", ["errorMsg" => "unknownUser"]);
-
+    public function checkRememberMe() {
+        if (isset($_POST['remember-me'])) {
+            setcookie("username", $_POST['username'], time() + (86400 * 30), '/');
+        }
         else
         {
-            $_SESSION["user"]["pseudo"] = $pseudo;
-            $_SESSION["user"]["password"] = $password;
-            $_SESSION["user"]["connected"] = true;
-
-            if($sqlServices->isAdmin($pseudo))
-                $_SESSION["user"]["isAdmin"] = true;
-
-            if(!is_null($rememberMe)) {
-                setcookie("pseudo", $pseudo, time() + 31 * 24 * 3600,
-                                        null, null, false, true);
-                setcookie("password", md5($password), time() + 31 * 24 * 3600,
-                                        null, null, false, true);
-            }
-            $url = $app['url_generator']->generate("home");
+            setcookie("username", "", time() - 3600, '/');
         }
+    }
 
+    public function login(Request $request, Application $app) {
+        $sqlService = new SQLServices($app);
+        $pseudo = $request->get("pseudo");
+        $password = $request->get("password");
+
+        if(isset($pseudo) && isset($password)) {
+            if ($sqlService->userExist($pseudo, $password))
+            {
+                session_start();
+                $_SESSION['user']['isConnected'] = true;
+                $_SESSION['user']['isAdmin'] = false;
+                $_SESSION['user']['pseudo'] = $pseudo;
+
+                $this->checkRememberMe();
+                $url = $app['url_generator']->generate('home');
+            }
+            elseif ($sqlService->isAdmin($pseudo, $password))
+            {
+                session_start();
+                $_SESSION['user']['isConnected'] = true;
+                $_SESSION['user']['isAdmin'] = true;
+
+                $this->checkRememberMe();
+                $url = $app['url_generator']->generate('home');
+            }
+            else
+            {
+                $_SESSION['user']['isConnected'] = false;
+                if (isset($_COOKIE['pseudo']) && strcmp($pseudo, $_COOKIE["pseudo"]) != 0)
+                    setcookie("pseudo", "", time() - 3600, '/');
+
+                $url = $app['url_generator']->generate('login', ["error" => "invalidID"]);
+
+            }
+        }
+        else
+        {
+            $url = $app['url_generator']->generate('login');
+        }
         return $app->redirect($url);
     }
+
+
+
+    public function logout(Application $app)
+    {
+        session_start();
+        $_SESSION["user"]["isConnected"] = false;
+        $_SESSION["user"]["isAdmin"] = false;
+        $url = $app["url_generator"]->generate("login");
+        return $app->redirect($url);
+    }
+
 
 
     public function displaySubscribePage(Application $app) {

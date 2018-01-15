@@ -45,6 +45,10 @@ $app->get('', 'DUT\\Controllers\\HomeController::displayHomePage')
 $app->get('/login', 'DUT\\Controllers\\AuthController::displayLoginPage')
     ->bind('login');
 
+$app->get('/logout', 'DUT\\Controllers\\AuthController::logout')
+    ->bind('logout');
+
+
 $app->get('/login/{errorMsg}', 'DUT\\Controllers\\AuthController::displayLoginPageWithErrorMsg')
     ->bind('loginError');
 
