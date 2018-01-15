@@ -269,10 +269,10 @@ select
     color: #FFD245;
 }
 
-.side-nav i
+.side-nav li .material-icons
 {
     font-size: 30px;
-    color: #FFD245;
+    color: white;
 }
 
 
