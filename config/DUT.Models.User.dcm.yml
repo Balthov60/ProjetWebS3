@@ -2,7 +2,7 @@
 
 DUT\Models\User:
   type: entity
-  table: User
+  table: user
 
   id:
     pseudo:
@@ -31,6 +31,6 @@ DUT\Models\User:
       length: 256
       column: mail
 
-    idAdmin:
+    isAdmin:
       type: boolean
       column: isAdmin

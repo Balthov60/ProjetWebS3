@@ -393,7 +393,10 @@ select
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> cb4d7aff71dd6370dbbace9b63746d604eec4333
 /* Login Page */
 
 .form-container
@@ -424,7 +427,8 @@ select
 .form-container button
 {
     position: relative;
-    margin: 0 auto;
+    margin: 20px auto;
+    margin-bottom: 10px;
     width: auto;
     background-color: #FFD245;
 }
@@ -434,7 +438,17 @@ select
     background-color: #ffe842;
 }
 
+<<<<<<< HEAD
 =======
+=======
+.error-msg
+{
+    margin: 0 auto;
+    margin-bottom: 30px;
+    color: red;
+}
+
+>>>>>>> cb4d7aff71dd6370dbbace9b63746d604eec4333
 /* Post */
 
 .post, .commentary
@@ -552,4 +566,7 @@ select
 {
     height: auto;
 }
+<<<<<<< HEAD
 >>>>>>> 8d1ea29527a3d31976af7ec861b27108f14d4e2b
+=======
+>>>>>>> cb4d7aff71dd6370dbbace9b63746d604eec4333
