@@ -9,6 +9,7 @@ class User
     protected $password;
     protected $firstname;
     protected $lastname;
+    protected $mail;
     protected $isAdmin;
 
     /**
