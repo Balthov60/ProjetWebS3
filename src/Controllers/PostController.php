@@ -4,6 +4,7 @@ namespace DUT\Controllers;
 
 
 use DUT\Models\Commentary;
+use DUT\Models\Post;
 use DUT\Services\SQLServices;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,32 @@ class PostController
 
         return new Response($app['twig']->render('edit-post.twig',
                             ['post' => $sqlService->getPostById($idPost)]));
+    }
+
+    public function displayPostCreation(Application $app)
+    {
+        return new Response($app['twig']->render('edit-post.twig',
+            ['post' => new Post("", "", "", "", "")]));
+    }
+
+    public function savePost(Request $request, Application $app)
+    {
+        $dir = $request->server->get('DOCUMENT_ROOT') . "/res/images";
+
+        foreach ($request->files as $uploadedFile) {
+            $pictureName = uniqid() . "." . $uploadedFile->guessExtension();
+            $uploadedFile->move($dir, $pictureName);
+        }
+
+        $sqlServices = new SQLServices($app);
+        $sqlServices->addEntity(new Post(null,
+            $request->get("title"),
+            $request->get("content"),
+            date("Y/m/d"),
+            $pictureName));
+
+        return $app->redirect($app["url_generator"]->generate("home"));
+
     }
 
     public function removePost(Application $app, $idPost) {
