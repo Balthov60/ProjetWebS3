@@ -31,6 +31,15 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/src/Views',
 ]);
 
+/*********************/
+/* Init Session Data */
+/*********************/
+
+$_SESSION["user"]["username"] = "balthov60";
+$_SESSION["user"]["isConnected"] = false;
+$_SESSION["user"]["isAdmin"] = "true";
+
+
 /*****************/
 /* Define Routes */
 /*****************/
@@ -57,6 +66,13 @@ $app->get("/edit/{idPost]", "DUT\\Controllers\\PostController::displayPostEditio
     ->bind("edit/{idPost}")
     ->before("DUT\\Controllers\\AuthController::isAdmin");
 
+/* Commentary */
+
+$app->post("/addCommentary", "DUT\\Controllers\\CommentaryController::addCommentary")
+    ->bind("addCommentary");
+
+$app->get("/removeCommentary/{idPost}/{idCommentary}", "DUT\\Controllers\\CommentaryController::removeCommentary")
+    ->bind("removeCommentary");
 
 $app["debug"] = true;
 $app->run();

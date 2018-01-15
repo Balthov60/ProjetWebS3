@@ -1,20 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: balth
- * Date: 11/01/2018
- * Time: 16:56
- */
 
 namespace DUT\Controllers;
 
 
+use DUT\Models\Commentary;
+use DUT\Services\SQLServices;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostController
 {
-    public function displayPost($idPost) {
-        return new Response("Post n$idPost");
+    public function displayPost(Application $app, $idPost) {
+        $sqlService = new SQLServices($app);
+
+        return new Response($app['twig']->render('post-page.twig',
+                                                ['userInfo' => $_SESSION["user"],
+                                                 'post' => $sqlService->getPostById($idPost),
+                                                 'commentaries' =>  $sqlService->getCommentaryForPost($idPost)]));
     }
 
     public function displayPostEdition($idPost) {
