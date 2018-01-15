@@ -139,6 +139,23 @@ class SQLServices
     }
 
     /**
+     * Remove Commentary matching idPost & idCommentary.
+     *
+     * @param $idPost
+     * @param $idCommentary
+     */
+    public function removeCommentary($idPost, $idCommentary)
+    {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Commentary");
+        $item = $repository->findOneBy(["idPost" => $idPost, "idCommentary" => $idCommentary]);
+
+        if (isset($item)) {
+            $this->entityManager->remove($item);
+            $this->entityManager->flush();
+        }
+    }
+
+    /**
      * return all commentary for a post.
      *
      * @param $idPost
@@ -154,6 +171,31 @@ class SQLServices
         }
 
         return $items;
+    }
+
+    public function addCommentary(Commentary $commentary)
+    {
+        $commentary->setIdCommentary($this->getMaxCommentaryIDFor($commentary->getIdPost()));
+        $this->addEntity($commentary);
+    }
+
+    /**
+     * @param $idPost
+     *
+     * @return integer
+     */
+    public function getMaxCommentaryIDFor($idPost)
+    {
+        /** @var Commentary $commentaries */
+
+        $commentaries = $this->getCommentaryForPost($idPost);
+        $maxID = 1;
+        if (isset($commentaries)) {
+            $lastCommentary =  $commentaries[sizeof($commentaries) - 1];
+            $maxID = $lastCommentary->getIdCommentary() + 1;
+        }
+
+        return $maxID;
     }
 
     /*******************/

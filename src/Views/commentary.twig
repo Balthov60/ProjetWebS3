@@ -1,11 +1,14 @@
 <div class="commentary">
     <div class="commentary-header">
         Posté le {{ commentary.getPostDate() }} par {{ commentary.getPseudo() }}
-        {% if isAdmin or commentary.getPseudo() == username %}
-            <span>
-                <a><i class="material-icons right">remove</i></a>
+        {% if userInfo["isAdmin"] or commentary.getPseudo() == userInfo["username"] %}
+            <div>
+                <a href="{{ app.url_generator.generate("removeCommentary",
+                            { "idPost" : commentary.getIdPost(), "idCommentary" : commentary.getIdCommentary() }) }}">
+                    <i class="material-icons right">remove</i>
+                </a>
                 <a><i class="material-icons right">modify</i></a>
-            </span>
+            </div>
         {% endif %}
     </div>
     <div class="commentary-content">

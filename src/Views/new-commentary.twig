@@ -1,0 +1,15 @@
+<div class="commentary">
+    <div class="commentary-header">
+        Ajouter un commentaire :
+    </div>
+    {% if userInfo["isConnected"] %}
+        Vous devez être connecté pour poster un commentaire :
+        <a href="{{ app.url_generator.generate("login") }}"> <ul>se connecter</ul> </a>
+    {% else %}
+    <form action="{{ app.url_generator.generate("addCommentary") }}" method="POST" class="commentary-form">
+        <textarea name="content" title="content" placeholder="Votre Commentaire..." rows="4"></textarea>
+        <input type="number" name="postID" title="postID" value="{{ post.getIdPost() }}" hidden>
+        <input type="submit" name="submit" class="waves-effect waves-light btn">
+    </form>
+    {% endif %}
+</div>

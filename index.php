@@ -35,9 +35,9 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
 /* Init Session Data */
 /*********************/
 
-$_SESSION["user"]["username"] = "";
+$_SESSION["user"]["username"] = "balthov60";
 $_SESSION["user"]["isConnected"] = false;
-$_SESSION["user"]["isAdmin"] = true;
+$_SESSION["user"]["isAdmin"] = "true";
 
 
 /*****************/
@@ -66,6 +66,13 @@ $app->get("/edit/{idPost]", "DUT\\Controllers\\PostController::displayPostEditio
     ->bind("edit/{idPost}")
     ->before("DUT\\Controllers\\AuthController::isAdmin");
 
+/* Commentary */
+
+$app->post("/addCommentary", "DUT\\Controllers\\CommentaryController::addCommentary")
+    ->bind("addCommentary");
+
+$app->post("/removeCommentary", "DUT\\Controllers\\CommentaryController::removeCommentary")
+    ->bind("removeCommentary");
 
 $app["debug"] = true;
 $app->run();

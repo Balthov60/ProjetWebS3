@@ -14,8 +14,7 @@ class PostController
         $sqlService = new SQLServices($app);
 
         return new Response($app['twig']->render('post-page.twig',
-                                                ['username' => $_SESSION["user"]["username"],
-                                                 'isAdmin' => $_SESSION["user"]["isAdmin"],
+                                                ['userInfo' => $_SESSION["user"],
                                                  'post' => $sqlService->getPostById($idPost),
                                                  'commentaries' =>  $sqlService->getCommentaryForPost($idPost)]));
     }

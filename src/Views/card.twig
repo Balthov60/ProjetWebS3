@@ -9,7 +9,9 @@
         </div>
         <div class="card-action">
             <p>{{ post.getPostDate() }}</p>
-            <a href="#" class="btn">Voir Plus</a>
+            <a href="{{ app.url_generator.generate('{idPost}', { 'idPost' : post.getIdPost() }) }}"
+               class="btn">Voir Plus
+            </a>
         </div>
     </div>
 </div>

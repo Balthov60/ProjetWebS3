@@ -68,4 +68,9 @@ class Commentary
     {
         return $this->postDate;
     }
+
+    public function setIdCommentary($idCommentary)
+    {
+        $this->idCommentary = $idCommentary;
+    }
 }

@@ -5,13 +5,10 @@ DUT\Models\Commentary:
   table: Commentary
 
   id:
-    idCommentary:
-      type: integer
-      associationKey: true
-      generator:
-        strategy: auto
-
     idPost:
+      type: integer
+
+    idCommentary:
       type: integer
 
   fields:

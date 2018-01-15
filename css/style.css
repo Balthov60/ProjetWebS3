@@ -31,13 +31,13 @@ nav .brand-logo
     margin-left: 50px;
 }
 
-.nav-wrapper li a
+.nav-wrapper li a, .commentary-form input
 {
     background-color: #FFD245;
     color: #262626
 }
 
-.nav-wrapper li a:hover
+.nav-wrapper li a:hover, .commentary-form input:hover, .nav-wrapper li a:hover, .commentary-form input:focus
 {
     background-color: #ffe842;
     color: #262626
@@ -363,7 +363,26 @@ body
     border-bottom: 2px solid #FFD245;
 }
 
-.commentary-content
+.commentary-content p
 {
     text-align: justify;
+    margin-bottom: 5px;
+}
+
+.commentary-form
+{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.commentary-form input
+{
+    margin-top: 10px;
+    align-self: flex-end;
+
+}
+
+.commentary-form textarea
+{
+    height: auto;
 }
