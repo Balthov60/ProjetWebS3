@@ -23,8 +23,9 @@ class PostController
     }
 
     public function displayPostEdition(Application $app, $idPost) {
+        session_start();
         $sqlService = new SQLServices($app);
-
+        $_SESSION["editedPostID"] = $idPost;
         return new Response($app['twig']->render('edit-post.twig',
                             ['post' => $sqlService->getPostById($idPost)]));
     }
@@ -37,14 +38,25 @@ class PostController
 
     public function savePost(Request $request, Application $app)
     {
-        $dir = $request->server->get('DOCUMENT_ROOT') . "/res/images";
+        session_start();
+        $sqlServices = new SQLServices($app);
+        if(!is_null($request->files->get("picture"))) {
+            $dir = $request->server->get('DOCUMENT_ROOT') . "/res/images";
+            $pictureName = uniqid() . $request->get("picture_name");
 
-        foreach ($request->files as $uploadedFile) {
-            $pictureName = uniqid() . "." . $uploadedFile->guessExtension();
-            $uploadedFile->move($dir, $pictureName);
+            foreach ($request->files as $uploadedFile)
+                $uploadedFile->move($dir, $pictureName);
         }
 
-        $sqlServices = new SQLServices($app);
+        else
+            $pictureName = $request->get("picture_name");
+
+        if(isset($_SESSION["editedPostID"]) && !is_null($_SESSION["editedPostID"]))
+        {
+            $sqlServices->removePost($_SESSION["editedPostID"]);
+            $_SESSION["editedPostID"] = null;
+        }
+
         $sqlServices->addEntity(new Post(null,
             $request->get("title"),
             $request->get("content"),
