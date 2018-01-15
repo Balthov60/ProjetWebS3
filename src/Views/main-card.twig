@@ -9,7 +9,9 @@
         </div>
         <div class="card-action">
             <p>{{ mainPost.getPostDate() }}</p>
-            <a href="{{ app.request.basepath }}/{{ mainPost.getIdPost() }}" class="btn">Voir Plus</a>
+            <a href="{{ app.url_generator.generate('{idPost}', { 'idPost' : mainPost.getIdPost() }) }}"
+               class="btn">Voir Plus
+            </a>
         </div>
     </div>
 </div>

@@ -1,0 +1,14 @@
+
+<div class="collection-item avatar z-depth-2">
+    <a class="post-link" href="#!"></a>
+    <img src="{{ app.request.basepath }}/res/images/{{ post.getImage() }}" alt="" class="circle">
+    <span class="title">{{ post.getTitle() }}</span>
+    <p class="item-date">{{ post.getPostDate() }}</p>
+    {% if isAdmin %}
+        <a href="#!" class="edit-link"><i class="material-icons">edit</i></a>
+        <a href="#!" class="remove-link"><i class="material-icons">close</i></a>
+    {% endif %}
+</div>
+
+
+

@@ -7,6 +7,19 @@
 
 nav .brand-logo, h1, h2 {
     font-family: Cinzel, serif;
+    font-size: 2em;
+    margin: 0;
+}
+
+/* Globals */
+
+.main-color-button
+{
+    color: #262626;
+}
+.main-color-button:hover
+{
+    color: #262626;
 }
 
 /* Header */
@@ -29,13 +42,13 @@ nav .brand-logo
     margin-left: 50px;
 }
 
-.nav-wrapper li a
+.nav-wrapper li a, .commentary-form input
 {
     background-color: #FFD245;
     color: #262626
 }
 
-.nav-wrapper li a:hover
+.nav-wrapper li a:hover, .commentary-form input:hover, .nav-wrapper li a:hover, .commentary-form input:focus
 {
     background-color: #ffe842;
     color: #262626
@@ -177,6 +190,118 @@ body
     color: #262626;
 }
 
+/* List all posts */
+
+.all-cards-list-container
+{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: auto;
+    margin: 0 auto;
+    background-color: rgba(236, 236, 236, 0.85);
+}
+
+.collection
+{
+    width: 90%;
+    margin: 20px auto;
+}
+
+.item-date
+{
+    font-size: 0.8em;
+}
+
+.edit-link
+{
+    position: absolute;
+    top: 35%;
+    right: 10px;
+}
+
+.remove-link
+{
+    position: absolute;
+    top: 35%;
+    right: 50px;
+}
+
+.post-link
+{
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    color: black;
+    left:0;
+    top: 0;
+    z-index: 10;
+}
+
+.collection i
+{
+    font-size: 30px;
+    color: #FFD245;
+}
+
+select
+{
+    width: 20%;
+    margin: 20px auto;
+}
+
+.order-by-container
+{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    margin: 20px auto;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-by-container select
+{
+    width: 40%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.order-by-container button
+{
+    background-color: #FFD245;
+}
+
+.order-by-container button:hover
+{
+    background-color: #ffe842;
+}
+
+
+/* Side navbar */
+
+
+.side-nav
+{
+    background-color: #262626;
+    padding-top: 50px;
+}
+
+.side-nav li a
+{
+    font-size: 1.2em;
+    color: #FFD245;
+}
+
+.side-nav li .material-icons
+{
+    font-size: 30px;
+    color: white;
+}
+
+
 /* About section */
 
 .about-section
@@ -267,7 +392,6 @@ body
     margin-right: 5px;
 }
 
-
 /* Login Page */
 
 .form-container
@@ -316,3 +440,120 @@ body
     color: red;
 }
 
+/* Post */
+
+.post, .commentary
+{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+
+    margin: 25px 0;
+    padding: 10px;
+
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2);
+    border-radius: 15px;
+
+    background: #ffffff;
+}
+
+.post-image
+{
+    min-width: 50%;
+    max-height: 500px;
+
+    display: flex;
+    align-self: center;
+}
+
+.post-image img
+{
+    width: 100%;
+
+    border: 1px solid #262626;
+    border-radius: 15px;
+}
+
+.post-title
+ {
+
+    display: flex;
+    align-self: center;
+    margin: 20px 0;
+}
+
+.separator
+{
+    width: 80%;
+    align-self: center;
+
+    border: 1px solid #262626;
+}
+
+.post-content
+{
+    width: 95%;
+    align-self: center;
+
+    padding: 2.5%;
+    margin-top: 5px;
+}
+
+.post-content p
+{
+    text-align: justify;
+}
+
+.post-footer
+{
+    display: flex;
+    justify-content: space-between;
+
+    border-top: 1px solid #FFD245;
+    padding-top: 10px;
+}
+
+/* Commentary */
+
+/* for all .Commentary go to .post */
+
+.commentary
+{
+    margin: 10px 0;
+}
+
+.commentary-header
+{
+    display: flex;
+    justify-content: space-between;
+
+    font-family: Cinzel serif;
+    font-size: 1.4em;
+
+    border-bottom: 2px solid #FFD245;
+}
+
+.commentary-content p
+{
+    text-align: justify;
+    margin-bottom: 5px;
+}
+
+.commentary-form
+{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.commentary-form input
+{
+    margin-top: 10px;
+    align-self: flex-end;
+
+}
+
+.commentary-form textarea
+{
+    height: auto;
+}

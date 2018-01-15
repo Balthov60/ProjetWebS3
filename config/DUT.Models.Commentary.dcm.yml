@@ -6,13 +6,10 @@ DUT\Models\Commentary:
 
   id:
     idPost:
-      associationKey: true
+      type: integer
 
     idCommentary:
       type: integer
-      associationKey: true
-      generator:
-        strategy: auto
 
   fields:
     pseudo:
@@ -23,3 +20,8 @@ DUT\Models\Commentary:
     content:
       type: text
       column: content
+
+    postDate:
+      type: string
+      lenght: 10
+      column: postDate

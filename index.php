@@ -31,6 +31,15 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/src/Views',
 ]);
 
+/*********************/
+/* Init Session Data */
+/*********************/
+
+$_SESSION["user"]["username"] = "balthov60";
+$_SESSION["user"]["isConnected"] = false;
+$_SESSION["user"]["isAdmin"] = "true";
+
+
 /*****************/
 /* Define Routes */
 /*****************/
@@ -66,13 +75,34 @@ $app->post("/subscribe", "DUT\\Controllers\\AuthController::subscribe")
 
 /* Post */
 
+$app->get("/posts", "DUT\\Controllers\\PostController::displayAllPosts")
+    ->bind("allPosts");
+
+$app->post("/posts", "DUT\\Controllers\\PostController::orderPostsBy")
+    ->bind("orderPostsBy");
+
 $app->get("/{idPost}", "DUT\\Controllers\\PostController::displayPost")
     ->bind("{idPost}");
 
-$app->get("/edit/{idPost]", "DUT\\Controllers\\PostController::displayPostEdition")
-    ->bind("edit/{idPost}")
-    ->before("DUT\\Controllers\\AuthController::isAdmin");
+$app->get("/edit/{idPost}", "DUT\\Controllers\\PostController::displayPostEdition")
+    ->bind("edit/{idPost}");
 
+$app->get("/remove/{idPost}", "DUT\\Controllers\\PostController::removePost")
+    ->bind("remove/{idPost}");
+
+$app->get("/{idPost}/editCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::editCommentary")
+    ->bind("editCommentary");
+
+/* Commentary */
+
+$app->post("/addCommentary", "DUT\\Controllers\\CommentaryController::addCommentary")
+    ->bind("addCommentary");
+
+$app->post("/updateCommentary", "DUT\\Controllers\\CommentaryController::updateCommentary")
+    ->bind("updateCommentary");
+
+$app->get("/{idPost}/removeCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::removeCommentary")
+    ->bind("removeCommentary");
 
 $app["debug"] = true;
 $app->run();
