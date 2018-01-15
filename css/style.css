@@ -190,6 +190,118 @@ body
     color: #262626;
 }
 
+/* List all posts */
+
+.all-cards-list-container
+{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: auto;
+    margin: 0 auto;
+    background-color: rgba(236, 236, 236, 0.85);
+}
+
+.collection
+{
+    width: 90%;
+    margin: 20px auto;
+}
+
+.item-date
+{
+    font-size: 0.8em;
+}
+
+.edit-link
+{
+    position: absolute;
+    top: 35%;
+    right: 10px;
+}
+
+.remove-link
+{
+    position: absolute;
+    top: 35%;
+    right: 50px;
+}
+
+.post-link
+{
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    color: black;
+    left:0;
+    top: 0;
+    z-index: 10;
+}
+
+.collection i
+{
+    font-size: 30px;
+    color: #FFD245;
+}
+
+select
+{
+    width: 20%;
+    margin: 20px auto;
+}
+
+.order-by-container
+{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    margin: 20px auto;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-by-container select
+{
+    width: 40%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.order-by-container button
+{
+    background-color: #FFD245;
+}
+
+.order-by-container button:hover
+{
+    background-color: #ffe842;
+}
+
+
+/* Side navbar */
+
+
+.side-nav
+{
+    background-color: #262626;
+    padding-top: 50px;
+}
+
+.side-nav li a
+{
+    font-size: 1.2em;
+    color: #FFD245;
+}
+
+.side-nav li .material-icons
+{
+    font-size: 30px;
+    color: white;
+}
+
+
 /* About section */
 
 .about-section

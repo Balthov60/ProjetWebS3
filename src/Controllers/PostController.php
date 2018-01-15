@@ -6,6 +6,7 @@ namespace DUT\Controllers;
 use DUT\Models\Commentary;
 use DUT\Services\SQLServices;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -32,5 +33,28 @@ class PostController
         $sqlServices->removePost($idPost);
 
         return new RedirectResponse($app["url_generator"]->generate("", $_SESSION["user"]));
+    }
+
+    public function displayAllPosts(Application $app)
+    {
+        session_start();
+        $sqlServices = new SQLServices($app);
+        $posts = $sqlServices->getAllPosts("DESC");
+
+        $html = $app['twig']->render('list-all-cards.twig', ['posts' => $posts, 'isAdmin' => $_SESSION["user"]["isAdmin"]]);
+        return new Response($html);
+    }
+
+    public function orderPostsBy(Request $request, Application $app)
+    {
+        if($request->get("orderBy") == "lastToOld")
+            return $app->redirect($app['url_generator']->generate('allPosts'));
+        else {
+            $sqlServices = new SQLServices($app);
+            $posts = $sqlServices->getAllPosts("ASC");
+
+            $html = $app['twig']->render('list-all-cards.twig', ['posts' => $posts, 'isAdmin' => true]);
+            return new Response($html);
+        }
     }
 }

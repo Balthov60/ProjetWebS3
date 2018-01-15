@@ -59,6 +59,12 @@ $app->get("/subscribe", "DUT\\Controllers\\AuthController::displaySubscribePage"
 
 /* Post */
 
+$app->get("/posts", "DUT\\Controllers\\PostController::displayAllPosts")
+    ->bind("allPosts");
+
+$app->post("/posts", "DUT\\Controllers\\PostController::orderPostsBy")
+    ->bind("orderPostsBy");
+
 $app->get("/{idPost}", "DUT\\Controllers\\PostController::displayPost")
     ->bind("{idPost}");
 
@@ -67,6 +73,9 @@ $app->get("/edit/{idPost}", "DUT\\Controllers\\PostController::displayPostEditio
 
 $app->get("/remove/{idPost}", "DUT\\Controllers\\PostController::removePost")
     ->bind("remove/{idPost}");
+
+$app->get("/{idPost}/editCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::editCommentary")
+    ->bind("editCommentary");
 
 /* Commentary */
 
@@ -78,9 +87,6 @@ $app->post("/updateCommentary", "DUT\\Controllers\\CommentaryController::updateC
 
 $app->get("/{idPost}/removeCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::removeCommentary")
     ->bind("removeCommentary");
-
-$app->get("/{idPost}/editCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::editCommentary")
-    ->bind("editCommentary");
 
 $app["debug"] = true;
 $app->run();

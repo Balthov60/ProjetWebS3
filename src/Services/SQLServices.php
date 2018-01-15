@@ -89,6 +89,16 @@ class SQLServices
     }
 
     /**
+     * return all posts added by the user;
+     *
+     * @return Post[]
+     */
+    public function getAllPosts($orderBy) {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Post");
+        return $repository->findBy([], ["idPost" => $orderBy]);
+    }
+
+    /**
      * return 10 last posts added by the user;
      *
      * @return array(Post)

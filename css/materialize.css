@@ -3030,6 +3030,7 @@ td, th {
   line-height: 1.5rem;
   padding: 10px 20px;
   margin: 0;
+  margin-top: 5px;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -6939,7 +6940,7 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::before {
 /* Select Field
    ========================================================================== */
 select {
-  display: none;
+  display: block;
 }
 
 select.browser-default {
