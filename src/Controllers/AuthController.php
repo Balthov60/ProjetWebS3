@@ -64,7 +64,7 @@ class AuthController
      * @return null|RedirectResponse
      */
     public function isAdmin() {
-        if (isset($_SESSION["user"]["connected"]) && $_SESSION["user"]["isAdmin"] != true) {
+        if ($_SESSION["user"]["isAdmin"] != true) {
             return new RedirectResponse('../login');
         }
         return null;

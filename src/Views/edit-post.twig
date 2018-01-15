@@ -1,0 +1,13 @@
+{% extends 'layout.twig' %}
+{% block body %}
+    <div class="main-page">
+        <form action="" method="post" class="post">
+            <label>
+                Title :
+                <input name="title" type="text" value="{{ post.getTitle() }}">
+            </label>
+            <textarea name="content" title="content" placeholder="Votre post..." rows="4">{{ post.getContent() }}</textarea>
+            <input type="submit" name="submit" class="waves-effect waves-light btn">
+        </form>
+    </div>
+{% endblock %}

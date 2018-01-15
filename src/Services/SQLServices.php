@@ -30,7 +30,7 @@ class SQLServices
      * @return void
      */
     public function addEntity($entity) {
-        $this->entityManager->persist($entity);
+        $this->entityManager->merge($entity);
         $this->entityManager->flush();
     }
 
@@ -89,6 +89,16 @@ class SQLServices
     }
 
     /**
+     * return all posts added by the user;
+     *
+     * @return Post[]
+     */
+    public function getAllPosts($orderBy) {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Post");
+        return $repository->findBy([], ["idPost" => $orderBy]);
+    }
+
+    /**
      * return 10 last posts added by the user;
      *
      * @return array(Post)
@@ -136,6 +146,79 @@ class SQLServices
             }
             $this->entityManager->flush();
         }
+    }
+
+    /**
+     * Remove Commentary matching idPost & idCommentary.
+     *
+     * @param $idPost
+     * @param $idCommentary
+     */
+    public function removeCommentary($idPost, $idCommentary)
+    {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Commentary");
+        $item = $repository->findOneBy(["idPost" => $idPost, "idCommentary" => $idCommentary]);
+
+        if (isset($item)) {
+            $this->entityManager->remove($item);
+            $this->entityManager->flush();
+        }
+    }
+
+    /**
+     * return all commentary for a post.
+     *
+     * @param $idPost
+     * @return array
+     */
+    public function getCommentaryForPost($idPost)
+    {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Commentary");
+        $items = $repository->findBy(["idPost" => $idPost]);
+
+        if (!isset($items)) {
+            $items = [];
+        }
+
+        return $items;
+    }
+
+    /**
+     * Get Commentary matching idPost & idCommentary.
+     *
+     * @param $idPost
+     * @param $idCommentary
+     * @return Commentary
+     */
+    public function getCommentary($idPost, $idCommentary)
+    {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Commentary");
+        return $repository->findOneBy(["idPost" => $idPost, "idCommentary" => $idCommentary]);
+    }
+
+    public function addCommentary(Commentary $commentary)
+    {
+        $commentary->setIdCommentary($this->getMaxCommentaryIDFor($commentary->getIdPost()));
+        $this->addEntity($commentary);
+    }
+
+    /**
+     * @param $idPost
+     *
+     * @return integer
+     */
+    public function getMaxCommentaryIDFor($idPost)
+    {
+        /** @var Commentary $commentaries */
+
+        $commentaries = $this->getCommentaryForPost($idPost);
+        $maxID = 1;
+        if (isset($commentaries)) {
+            $lastCommentary =  $commentaries[sizeof($commentaries) - 1];
+            $maxID = $lastCommentary->getIdCommentary() + 1;
+        }
+
+        return $maxID;
     }
 
     /*******************/

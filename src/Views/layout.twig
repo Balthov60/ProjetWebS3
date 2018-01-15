@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>{% block title %}Le Blog d'Otis{% endblock %}</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="{{ app.request.basepath }}/css/materialize.min.css"  media="screen,projection"/>
+    <link rel="stylesheet" href="{{ app.request.basepath }}/css/materialize.min.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="{{ app.request.basepath }}/css/style.css"  media="screen,projection"/>
 
 
@@ -13,8 +13,7 @@
 {% include 'navbar.twig' %}
 {% block body %}{% endblock %}
 </body>
-
-<script type="text/javascript" src="{{ app.request.basepath }}/src/js/materialize.min.js"></script>
 <script type="text/javascript" src="{{ app.request.basepath }}/src/js/jquery-3.2.1.min.js"></script>
-
+<script type="text/javascript" src="{{ app.request.basepath }}/src/js/materialize.min.js"></script>
+<script type="text/javascript" src="{{ app.request.basepath }}/src/js/initSideNav.js"></script>
 </html>
