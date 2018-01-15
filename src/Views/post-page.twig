@@ -1,12 +1,12 @@
 {% extends 'layout.twig' %}
 {% block body %}
     <div class="main-page">
-        {% include 'post-section.twig' %}
+        {% include 'PostPageComponents/post-section.twig' %}
 
         {% for commentary in commentaries %}
-            {% include 'commentary.twig' %}
+            {% include 'PostPageComponents/commentary.twig' %}
         {% endfor %}
 
-        {% include 'new-commentary.twig' %}
+        {% include 'PostPageComponents/new-commentary.twig' %}
     </div>
 {% endblock %}

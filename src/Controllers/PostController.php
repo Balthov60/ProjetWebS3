@@ -14,11 +14,11 @@ class PostController
 {
     public function displayPost(Application $app, $idPost) {
         $sqlService = new SQLServices($app);
+        $twigParameters = ['userInfo' => $_SESSION["user"],
+                           'post' => $sqlService->getPostById($idPost),
+                           'commentaries' =>  $sqlService->getCommentaryForPost($idPost)];
 
-        return new Response($app['twig']->render('post-page.twig',
-                                                ['userInfo' => $_SESSION["user"],
-                                                 'post' => $sqlService->getPostById($idPost),
-                                                 'commentaries' =>  $sqlService->getCommentaryForPost($idPost)]));
+        return new Response($app['twig']->render('post-page.twig', $twigParameters));
     }
 
     public function displayPostEdition(Application $app, $idPost) {

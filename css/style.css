@@ -22,6 +22,15 @@ nav .brand-logo, h1, h2 {
     color: #262626;
 }
 
+.second-color-button
+{
+    color: #FFD245;
+}
+.second-color-button:hover
+{
+    color: #ffe842;
+}
+
 /* Header */
 
 /* Override navbar size */
@@ -540,17 +549,23 @@ select
     margin-bottom: 5px;
 }
 
+.commentary-login-required
+{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
 .commentary-form
 {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
 }
-.commentary-form input
+.commentary-form .btn
 {
     margin-top: 10px;
     align-self: flex-end;
-
 }
 
 .commentary-form textarea

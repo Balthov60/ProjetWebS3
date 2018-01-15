@@ -18,7 +18,7 @@ class HomeController
         $mainPost = $sqlServices->getPostById("1"); //TODO: Implement Handling of main Post in admin panel
         $posts = $this->getPostList($sqlServices, $mainPost);
 
-        $twigParameters = ['mainPost' => $mainPost, 'posts' => $posts, 'userInfos' => $_SESSION["user"]];
+        $twigParameters = ['mainPost' => $mainPost, 'posts' => $posts, 'userInfo' => $_SESSION["user"]];
         return new Response($app['twig']->render('home-page.twig',$twigParameters));
     }
 

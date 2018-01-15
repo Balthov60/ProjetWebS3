@@ -180,7 +180,7 @@ class SQLServices
     public function getCommentaryForPost($idPost)
     {
         $repository = $this->entityManager->getRepository("DUT\\Models\\Commentary");
-        $items = $repository->findBy(["idPost" => $idPost]);
+        $items = $repository->findBy(["idPost" => $idPost], ["idCommentary" => "ASC"]);
 
         if (!isset($items)) {
             $items = [];

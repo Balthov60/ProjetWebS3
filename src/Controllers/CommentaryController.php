@@ -2,15 +2,30 @@
 
 namespace DUT\Controllers;
 
-
 use DUT\Models\Commentary;
+use DUT\Models\DateUtils;
 use DUT\Services\SQLServices;
 use Silex\Application;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+
 class CommentaryController
 {
+    /**
+     * @param Application $app
+     * @param $idCommentary
+     * @param $idPost
+     * @return Response
+     */
+    public function displayEditCommentaryPage(Application $app, $idCommentary, $idPost) {
+        $sqlServices = new SQLServices($app);
+
+        $twigParameters = ['userInfo' => $_SESSION["user"],
+            'commentary' => $sqlServices->getCommentary($idPost, $idCommentary)];
+        return new Response($app['twig']->render('edit-commentary.twig', $twigParameters));
+    }
+
     /**
      * Add commentary & redirect to post page.
      *
@@ -20,13 +35,8 @@ class CommentaryController
     public function addCommentary(Application $app) {
         $sqlServices = new SQLServices($app);
 
-        $date = getdate();
-        $formattedDate = $date["year"]
-                       . "-" . str_pad($date["mon"], 2, '0', STR_PAD_LEFT)
-                       . "-" . str_pad($date["mday"], 2, '0', STR_PAD_LEFT);
-
-        $sqlServices->addCommentary(new Commentary($_POST["postID"], null,
-            $_SESSION['user']['username'], $_POST["content"], $formattedDate));
+        $sqlServices->addCommentary(new Commentary($_POST["postID"], null, $_SESSION['user']['username'],
+                                                   $_POST["content"], DateUtils::getFormattedCurrentDate()));
 
         return new RedirectResponse($app["url_generator"]->generate("{idPost}", ["idPost" => $_POST["postID"]]));
     }
@@ -40,13 +50,8 @@ class CommentaryController
     public function updateCommentary(Application $app) {
         $sqlServices = new SQLServices($app);
 
-        $date = getdate();
-        $formattedDate = $date["year"]
-            . "-" . str_pad($date["mon"], 2, '0', STR_PAD_LEFT)
-            . "-" . str_pad($date["mday"], 2, '0', STR_PAD_LEFT);
-
-        $sqlServices->addEntity(new Commentary($_POST["postID"], $_POST["commentaryID"],
-            $_SESSION['user']['username'], $_POST["content"], $formattedDate));
+        $sqlServices->addEntity(new Commentary($_POST["postID"], $_POST["commentaryID"], $_SESSION['user']['username'],
+                                               $_POST["content"], DateUtils::getFormattedCurrentDate()));
 
         return new RedirectResponse($app["url_generator"]->generate("{idPost}", ["idPost" => $_POST["postID"]]));
     }
@@ -64,14 +69,5 @@ class CommentaryController
         $sqlServices->removeCommentary($idPost, $idCommentary);
 
         return new RedirectResponse($app["url_generator"]->generate("{idPost}", ["idPost" => $idPost]));
-    }
-
-    public function editCommentary(Application $app, $idCommentary, $idPost) {
-        $sqlServices = new SQLServices($app);
-
-        return new Response($app['twig']->render('edit-commentary.twig',
-                 ['userInfo' => $_SESSION["user"],
-                  'commentary' => $sqlServices->getCommentary($idPost, $idCommentary)]
-        ));
     }
 }

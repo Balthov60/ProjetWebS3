@@ -36,7 +36,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
 /*********************/
 
 $_SESSION["user"]["username"] = "Balthov60";
-$_SESSION["user"]["isConnected"] = true;
+$_SESSION["user"]["isConnected"] = "true";
 $_SESSION["user"]["isAdmin"] = "true";
 
 
