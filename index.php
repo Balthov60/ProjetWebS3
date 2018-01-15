@@ -71,7 +71,7 @@ $app->get("/edit/{idPost]", "DUT\\Controllers\\PostController::displayPostEditio
 $app->post("/addCommentary", "DUT\\Controllers\\CommentaryController::addCommentary")
     ->bind("addCommentary");
 
-$app->post("/removeCommentary", "DUT\\Controllers\\CommentaryController::removeCommentary")
+$app->get("/removeCommentary/{idPost}/{idCommentary}", "DUT\\Controllers\\CommentaryController::removeCommentary")
     ->bind("removeCommentary");
 
 $app["debug"] = true;

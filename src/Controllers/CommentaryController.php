@@ -20,7 +20,9 @@ class CommentaryController
         $sqlServices = new SQLServices($app);
 
         $date = getdate();
-        $formattedDate = $date["year"] . "-" . $date["mon"] . " -" . $date["mday"];
+        $formattedDate = $date["year"]
+                       . "-" . str_pad($date["mon"], 2, '0', STR_PAD_LEFT)
+                       . "-" . str_pad($date["mday"], 2, '0', STR_PAD_LEFT);
 
         $sqlServices->addCommentary(new Commentary($_POST["postID"], null,
             $_SESSION['user']['username'], $_POST["content"], $formattedDate));
