@@ -3,11 +3,11 @@
         Posté le {{ commentary.getPostDate() }} par {{ commentary.getPseudo() }}
         {% if userInfo["isAdmin"] or commentary.getPseudo() == userInfo["username"] %}
             <div>
+                <a><i class="material-icons right main-color-button">edit</i></a>
                 <a href="{{ app.url_generator.generate("removeCommentary",
-                            { "idPost" : commentary.getIdPost(), "idCommentary" : commentary.getIdCommentary() }) }}">
-                    <i class="material-icons right">remove</i>
+                { "idPost" : commentary.getIdPost(), "idCommentary" : commentary.getIdCommentary() }) }}">
+                    <i class="material-icons right main-color-button">delete</i>
                 </a>
-                <a><i class="material-icons right">modify</i></a>
             </div>
         {% endif %}
     </div>

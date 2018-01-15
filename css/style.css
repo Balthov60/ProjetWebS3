@@ -11,6 +11,17 @@ nav .brand-logo, h1, h2 {
     margin: 0;
 }
 
+/* Globals */
+
+.main-color-button
+{
+    color: #262626;
+}
+.main-color-button:hover
+{
+    color: #262626;
+}
+
 /* Header */
 
 /* Override navbar size */
