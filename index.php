@@ -62,9 +62,11 @@ $app->get("/subscribe", "DUT\\Controllers\\AuthController::displaySubscribePage"
 $app->get("/{idPost}", "DUT\\Controllers\\PostController::displayPost")
     ->bind("{idPost}");
 
-$app->get("/edit/{idPost]", "DUT\\Controllers\\PostController::displayPostEdition")
-    ->bind("edit/{idPost}")
-    ->before("DUT\\Controllers\\AuthController::isAdmin");
+$app->get("/edit/{idPost}", "DUT\\Controllers\\PostController::displayPostEdition")
+    ->bind("edit/{idPost}");
+
+$app->get("/remove/{idPost}", "DUT\\Controllers\\PostController::removePost")
+    ->bind("remove/{idPost}");
 
 /* Commentary */
 
