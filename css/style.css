@@ -200,19 +200,32 @@ body
     font-size: 0.8em;
 }
 
-.go-to-link
+.edit-link
 {
     position: absolute;
     top: 35%;
     right: 10px;
 }
 
-.edit-link
+.remove-link
 {
     position: absolute;
     top: 35%;
     right: 50px;
 }
+
+.post-link
+{
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    color: black;
+    left:0;
+    top: 0;
+    z-index: 10;
+}
+
 .collection i
 {
     font-size: 30px;

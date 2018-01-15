@@ -26,10 +26,11 @@ class PostController
 
     public function displayAllPosts(Application $app)
     {
+        session_start();
         $sqlServices = new SQLServices($app);
         $posts = $sqlServices->getAllPosts("DESC");
 
-        $html = $app['twig']->render('list-all-cards.twig', ['posts' => $posts, 'isAdmin' => true]);
+        $html = $app['twig']->render('list-all-cards.twig', ['posts' => $posts, 'isAdmin' => $_SESSION["user"]["isAdmin"]]);
         return new Response($html);
     }
 

@@ -10,11 +10,11 @@
             <button type="submit" class="waves-effect waves-light btn" name="submit">Trier</button>
         </form>
 
-       <ul class="collection">
+       <div class="collection">
             {% for post in posts %}
                 {% include "card-list-item.twig" %}
             {% endfor %}
-        </ul>
+        </div>
     </div>
     {% include "side-nav.twig" %}
 {% endblock body %}
