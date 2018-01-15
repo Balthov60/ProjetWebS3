@@ -30,7 +30,7 @@ class SQLServices
      * @return void
      */
     public function addEntity($entity) {
-        $this->entityManager->persist($entity);
+        $this->entityManager->merge($entity);
         $this->entityManager->flush();
     }
 
@@ -171,6 +171,19 @@ class SQLServices
         }
 
         return $items;
+    }
+
+    /**
+     * Get Commentary matching idPost & idCommentary.
+     *
+     * @param $idPost
+     * @param $idCommentary
+     * @return Commentary
+     */
+    public function getCommentary($idPost, $idCommentary)
+    {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\Commentary");
+        return $repository->findOneBy(["idPost" => $idPost, "idCommentary" => $idCommentary]);
     }
 
     public function addCommentary(Commentary $commentary)

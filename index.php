@@ -62,17 +62,25 @@ $app->get("/subscribe", "DUT\\Controllers\\AuthController::displaySubscribePage"
 $app->get("/{idPost}", "DUT\\Controllers\\PostController::displayPost")
     ->bind("{idPost}");
 
-$app->get("/edit/{idPost]", "DUT\\Controllers\\PostController::displayPostEdition")
-    ->bind("edit/{idPost}")
-    ->before("DUT\\Controllers\\AuthController::isAdmin");
+$app->get("/edit/{idPost}", "DUT\\Controllers\\PostController::displayPostEdition")
+    ->bind("edit/{idPost}");
+
+$app->get("/remove/{idPost}", "DUT\\Controllers\\PostController::removePost")
+    ->bind("remove/{idPost}");
 
 /* Commentary */
 
 $app->post("/addCommentary", "DUT\\Controllers\\CommentaryController::addCommentary")
     ->bind("addCommentary");
 
-$app->get("/removeCommentary/{idPost}/{idCommentary}", "DUT\\Controllers\\CommentaryController::removeCommentary")
+$app->post("/updateCommentary", "DUT\\Controllers\\CommentaryController::updateCommentary")
+    ->bind("updateCommentary");
+
+$app->get("/{idPost}/removeCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::removeCommentary")
     ->bind("removeCommentary");
+
+$app->get("/{idPost}/editCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::editCommentary")
+    ->bind("editCommentary");
 
 $app["debug"] = true;
 $app->run();

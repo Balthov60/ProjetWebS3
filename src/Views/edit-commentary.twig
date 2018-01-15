@@ -1,0 +1,16 @@
+{% extends 'layout.twig' %}
+{% block body %}
+    <div class="main-page">
+        <div class="commentary">
+            <div class="commentary-header">
+                Posté le {{ commentary.getPostDate() }} par {{ commentary.getPseudo() }}
+            </div>
+            <form action="{{ app.url_generator.generate("updateCommentary") }}" method="POST" class="commentary-form">
+                <textarea name="content" title="content" placeholder="Votre Commentaire..." rows="4">{{ commentary.getContent() }}</textarea>
+                <input type="number" name="commentaryID" title="commentaryID" value="{{ commentary.getIdCommentary() }}" hidden>
+                <input type="number" name="postID" title="postID" value="{{ commentary.getIdPost() }}" hidden>
+                <input type="submit" name="submit" class="waves-effect waves-light btn">
+            </form>
+        </div>
+    </div>
+{% endblock %}
