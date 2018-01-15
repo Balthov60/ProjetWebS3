@@ -53,11 +53,14 @@ class PostController
 
         if(isset($_SESSION["editedPostID"]) && !is_null($_SESSION["editedPostID"]))
         {
-            $sqlServices->removePost($_SESSION["editedPostID"]);
+            $idPost = $_SESSION["editedPostID"];
             $_SESSION["editedPostID"] = null;
         }
 
-        $sqlServices->addEntity(new Post(null,
+        else
+            $idPost = null;
+
+        $sqlServices->addEntity(new Post($idPost,
             $request->get("title"),
             $request->get("content"),
             date("Y/m/d"),
