@@ -71,8 +71,14 @@ class SQLServices
     {
         $repository = $this->entityManager->getRepository("DUT\\Models\\User");
         $user = $repository->find($username);
-
         return (isset($user));
+    }
+
+    public function isAdmin($username)
+    {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\User");
+        $user = $repository->find($username);
+        return ($user->isAdmin() == 1);
     }
 
     /***************/

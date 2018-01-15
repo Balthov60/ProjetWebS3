@@ -266,3 +266,53 @@ body
 {
     margin-right: 5px;
 }
+
+
+/* Login Page */
+
+.form-container
+{
+    height: 50%;
+    width: 40%;
+    margin: 50px auto;
+    padding: 50px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+
+    background-color: rgba(255, 255, 255, 0.81);
+}
+
+.form-container label
+{
+    font-size: 0.8em;
+    color: rgba(66, 66, 66, 0.99);
+}
+
+.submit-container
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.form-container button
+{
+    position: relative;
+    margin: 20px auto;
+    margin-bottom: 10px;
+    width: auto;
+    background-color: #FFD245;
+}
+
+.form-container button:hover
+{
+    background-color: #ffe842;
+}
+
+.error-msg
+{
+    margin: 0 auto;
+    margin-bottom: 30px;
+    color: red;
+}
+
