@@ -9,17 +9,17 @@ use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+const _USERNAME_TOO_SMALL = "Le nom d'utilisateur est trop petit";
+const _USERNAME_TOO_BIG = "Le nom d'utilisateur est trop grand";
+const _MAIL_ALREADY_EXISTS = "Cette adresse mail est déjà associé à un compte ";
+const _USERNAME_ALREADY_EXISTS = "Ce nom d'utilisateur est déjà associé à un compte ";
+const _CONFIRMATION_PASSWORD = "La confirmation de mot de passe ne correspond pas au mot de passe";
+const _PASSWORD_TOO_SMALL = "Le mot de passe est trop court";
 
 
 class AuthController
 {
 
-    const _USERNAME_TOO_SMALL = "Le nom d'utilisateur est trop petit";
-    const _USERNAME_TOO_BIG = "Le nom d'utilisateur est trop grand";
-    const _MAIL_ALREADY_EXISTS = "Cette adresse mail est déjà associé à un compte ";
-    const _USERNAME_ALREADY_EXISTS = "Ce nom d'utilisateur est déjà associé à un compte ";
-    const _CONFIRMATION_PASSWORD = "La confirmation de mot de passe ne correspond pas au mot de passe";
-    const _PASSWORD_TOO_SMALL = "Le mot de passe est trop court";
 
     public function displayLoginPage(Application $app) {
         session_start();
@@ -110,29 +110,31 @@ class AuthController
 
     public function displaySubscribePage(Application $app) {
         session_start();
-        $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => null]);
+        $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => null,
+                                                            "isConnected" => true,
+                                                            "isAdmin" => true]);
         return new Response($html);
     }
 
     public function displaySubscribePageErrorMsg($errorMsg, Application $app)
     {
         if($errorMsg == "usernameTooSmall")
-            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_TOO_SMALL]);
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_TOO_SMALL, "userInfo" => $_SESSION["user"]]);
 
         elseif ($errorMsg == "usernameTooBig")
-            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_TOO_BIG]);
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_TOO_BIG, "userInfo" => $_SESSION["user"]]);
 
         elseif ($errorMsg == "mailAlreadyExist")
-            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _MAIL_ALREADY_EXISTS]);
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _MAIL_ALREADY_EXISTS, "userInfo" => $_SESSION["user"]]);
 
         elseif ($errorMsg == "usernameAlreadyExist")
-            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_ALREADY_EXISTS]);
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_ALREADY_EXISTS, "userInfo" => $_SESSION["user"]]);
 
         elseif ($errorMsg == "confirmationPassword")
-            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _CONFIRMATION_PASSWORD]);
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _CONFIRMATION_PASSWORD, "userInfo" => $_SESSION["user"]]);
 
         elseif ($errorMsg == "passwordTooSmall")
-            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _PASSWORD_TOO_SMALL]);
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _PASSWORD_TOO_SMALL, "userInfo" => $_SESSION["user"]]);
 
         return new Response($html);
     }
@@ -147,47 +149,45 @@ class AuthController
 
             if (strlen($_POST['username']) < 6) {
                 $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "usernameTooSmall"]);
-                return;
+                return $app->redirect($url);
             }
             if (strlen($_POST['username']) > 16) {
                 $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "usernameTooBig"]);
-                return;
+                return $app->redirect($url);
             }
 
             /* Test if IDs are available */
 
-            include('../classes/SQLServices.php');
-            include('../includes/variables.inc.php');
             $dbHandler = new SQLServices($app);
 
             if ($dbHandler->mailExist($_POST['mail'])) {
                 $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "mailAlreadyExist"]);
-                return;
+                return $app->redirect($url);
             }
             if ($dbHandler->userExist($_POST['username'])) {
                 $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "usernameAlreadyExist"]);
-                return;
+                return $app->redirect($url);
             }
 
             /* Test if Password are valid */
 
             if (strcmp($_POST['password'], $_POST['password-confirmation']) != 0) {
                 $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "confirmationPassword"]);
-                return;
+                return $app->redirect($url);
             }
             if (strlen($_POST['password']) < 8) {
                 $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "passwordTooSmall"]);
-                return;
+                return $app->redirect($url);
             }
 
-            /* If all test succeed, create a new user */
+            /* If all test succeeded, create a new user */
 
             $dbHandler->addEntity(new User($_POST['username'],
-                        md5($_POST['password'],
+                        md5($_POST['password']),
                             $_POST['firstname'],
                             $_POST['lastname'],
                             $_POST['mail'],
-                            0)));
+                            0));
 
             $url = $app["url_generator"]->generate("login");
         }
@@ -195,8 +195,10 @@ class AuthController
         {
             session_destroy();
             session_start();
-            header('Location:../index.php');
+            $url = $app["url_generator"]->generate("home");
         }
+
+        return $app->redirect($url);
     }
 
     private function initSession() {
