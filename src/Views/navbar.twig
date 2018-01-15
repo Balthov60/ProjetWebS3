@@ -2,7 +2,7 @@
     <div class="nav-wrapper">
         <a href="{{ app.url_generator.generate('home') }}" class="brand-logo">Le blog d'otis, scribe de père en fils</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            {%  if isConnected == true %}
+            {%  if userInfos["isConnected"] == true %}
                 <li><a href="{{ app.url_generator.generate("logout") }}" class="waves-effect waves-light btn">Se Déconnecter<i class="material-icons right">exit_to_app</i></a></li>
             {% else %}
                 <li><a href="{{ app.url_generator.generate('login') }}" class="waves-effect waves-light btn">Se connecter<i class="material-icons right">assignment_ind</i></a></li>
@@ -11,7 +11,7 @@
         </ul>
     </div>
 
-    {%  if isAdmin == true %}
+    {%  if userInfos["isAdmin"] == true %}
         <div class="fixed-action-btn horizontal">
             <a class="btn-floating btn-large waves-effect waves-light">
                 <i class="large material-icons">add</i>

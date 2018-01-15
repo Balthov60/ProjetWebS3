@@ -35,8 +35,8 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
 /* Init Session Data */
 /*********************/
 
-$_SESSION["user"]["username"] = "balthov60";
-$_SESSION["user"]["isConnected"] = false;
+$_SESSION["user"]["username"] = "Balthov60";
+$_SESSION["user"]["isConnected"] = true;
 $_SESSION["user"]["isAdmin"] = "true";
 
 
@@ -76,7 +76,7 @@ $app->post("/subscribe", "DUT\\Controllers\\AuthController::subscribe")
 /* Post */
 
 $app->get("/posts", "DUT\\Controllers\\PostController::displayAllPosts")
-    ->bind("allPosts");
+    ->bind("allPostsList");
 
 $app->post("/posts", "DUT\\Controllers\\PostController::orderPostsBy")
     ->bind("orderPostsBy");
