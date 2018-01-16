@@ -13,29 +13,47 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostController
 {
+    /**
+     * @param Application $app
+     * @param $idPost
+     * @return Response
+     */
     public function displayPost(Application $app, $idPost) {
         $sqlService = new SQLServices($app);
-        $twigParameters = ['userInfo' => $_SESSION["user"],
+        $twigParameters = ['userInfo' => $app['session']->get("user"),
                            'post' => $sqlService->getPostById($idPost),
                            'commentaries' =>  $sqlService->getCommentaryForPost($idPost)];
 
         return new Response($app['twig']->render('post-page.twig', $twigParameters));
     }
 
+    /**
+     * @param Application $app
+     * @param $idPost
+     * @return Response
+     */
     public function displayPostEdition(Application $app, $idPost) {
-        session_start();
         $sqlService = new SQLServices($app);
         $_SESSION["editedPostID"] = $idPost;
         return new Response($app['twig']->render('edit-post.twig',
                             ['post' => $sqlService->getPostById($idPost)]));
     }
 
+    /**
+     * @param Application $app
+     * @return Response
+     */
     public function displayPostCreation(Application $app)
     {
         return new Response($app['twig']->render('edit-post.twig',
             ['post' => new Post("", "", "", "", "")]));
     }
 
+    /**
+     * @param Request $request
+     * @param Application $app
+     * @return RedirectResponse
+     */
     public function savePost(Request $request, Application $app)
     {
         session_start();
@@ -70,6 +88,11 @@ class PostController
 
     }
 
+    /**
+     * @param Application $app
+     * @param $idPost
+     * @return RedirectResponse
+     */
     public function removePost(Application $app, $idPost) {
         $sqlServices = new SQLServices($app);
         $sqlServices->removePost($idPost);
@@ -77,26 +100,40 @@ class PostController
         return new RedirectResponse($app["url_generator"]->generate("", $_SESSION["user"]));
     }
 
+
+    /* List Post Page */
+
+    /**
+     * @param Application $app
+     * @return Response
+     */
     public function displayAllPosts(Application $app)
     {
-        session_start();
         $sqlServices = new SQLServices($app);
         $posts = $sqlServices->getAllPosts("DESC");
 
-        $html = $app['twig']->render('list-all-cards.twig', ['posts' => $posts, 'isAdmin' => $_SESSION["user"]["isAdmin"]]);
-        return new Response($html);
+        $twigParameter = ['posts' => $posts, 'userInfo' => $app["session"]->get("user")];
+        return new Response($app['twig']->render('list-all-cards.twig', $twigParameter));
     }
 
+    /**
+     * @param Request $request
+     * @param Application $app
+     * @return RedirectResponse|Response
+     */
     public function orderPostsBy(Request $request, Application $app)
     {
-        if($request->get("orderBy") == "lastToOld")
+        if ($request->get("orderBy") == "lastToOld")
+        {
             return $app->redirect($app['url_generator']->generate('allPosts'));
-        else {
+        }
+        else
+        {
             $sqlServices = new SQLServices($app);
             $posts = $sqlServices->getAllPosts("ASC");
 
-            $html = $app['twig']->render('list-all-cards.twig', ['posts' => $posts, 'isAdmin' => true]);
-            return new Response($html);
+            $twigParameter = ['posts' => $posts, 'userInfo' => $app["session"]->get("user")];
+            return new Response($app['twig']->render('list-all-cards.twig', $twigParameter));
         }
     }
 }

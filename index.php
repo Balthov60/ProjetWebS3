@@ -93,10 +93,10 @@ $app->get("/edit/{idPost}", "DUT\\Controllers\\PostController::displayPostEditio
 $app->get("/remove/{idPost}", "DUT\\Controllers\\PostController::removePost")
     ->bind("remove/{idPost}");
 
-$app->get("/{idPost}/editCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::editCommentary")
-    ->bind("editCommentary");
-
 /* Commentary */
+
+$app->get("/{idPost}/editCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::displayEditCommentaryPage")
+    ->bind("editCommentary");
 
 $app->post("/addCommentary", "DUT\\Controllers\\CommentaryController::addCommentary")
     ->bind("addCommentary");

@@ -21,8 +21,8 @@ class CommentaryController
     public function displayEditCommentaryPage(Application $app, $idCommentary, $idPost) {
         $sqlServices = new SQLServices($app);
 
-        $twigParameters = ['userInfo' => $_SESSION["user"],
-            'commentary' => $sqlServices->getCommentary($idPost, $idCommentary)];
+        $twigParameters = ['userInfo' => $app['session']->get("user"),
+                           'commentary' => $sqlServices->getCommentary($idPost, $idCommentary)];
         return new Response($app['twig']->render('edit-commentary.twig', $twigParameters));
     }
 
@@ -35,7 +35,8 @@ class CommentaryController
     public function addCommentary(Application $app) {
         $sqlServices = new SQLServices($app);
 
-        $sqlServices->addCommentary(new Commentary($_POST["postID"], null, $_SESSION['user']['username'],
+        $sqlServices->addCommentary(new Commentary($_POST["postID"], null,
+                                                   $app['session']->get("user")['username'],
                                                    $_POST["content"], DateUtils::getFormattedCurrentDate()));
 
         return new RedirectResponse($app["url_generator"]->generate("{idPost}", ["idPost" => $_POST["postID"]]));
@@ -50,7 +51,8 @@ class CommentaryController
     public function updateCommentary(Application $app) {
         $sqlServices = new SQLServices($app);
 
-        $sqlServices->addEntity(new Commentary($_POST["postID"], $_POST["commentaryID"], $_SESSION['user']['username'],
+        $sqlServices->addEntity(new Commentary($_POST["postID"], $_POST["commentaryID"],
+                                               $app['session']->get("user")['username'],
                                                $_POST["content"], DateUtils::getFormattedCurrentDate()));
 
         return new RedirectResponse($app["url_generator"]->generate("{idPost}", ["idPost" => $_POST["postID"]]));

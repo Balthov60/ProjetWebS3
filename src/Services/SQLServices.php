@@ -223,11 +223,11 @@ class SQLServices
      */
     public function getMaxCommentaryIDFor($idPost)
     {
-        /** @var Commentary $commentaries */
+        /** @var Commentary $lastCommentary */
 
         $commentaries = $this->getCommentaryForPost($idPost);
         $maxID = 1;
-        if (isset($commentaries)) {
+        if ($commentaries != null) {
             $lastCommentary =  $commentaries[sizeof($commentaries) - 1];
             $maxID = $lastCommentary->getIdCommentary() + 1;
         }
