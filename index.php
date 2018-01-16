@@ -81,6 +81,12 @@ $app->get("/posts", "DUT\\Controllers\\PostController::displayAllPosts")
 $app->post("/posts", "DUT\\Controllers\\PostController::orderPostsBy")
     ->bind("orderPostsBy");
 
+$app->get("/createPost", "DUT\\Controllers\\PostController::displayPostCreation")
+    ->bind("createPost");
+
+$app->post("/createPost", "DUT\\Controllers\\PostController::savePost")
+    ->bind("savePost");
+
 $app->get("/{idPost}", "DUT\\Controllers\\PostController::displayPost")
     ->bind("{idPost}");
 

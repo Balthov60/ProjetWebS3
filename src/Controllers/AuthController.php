@@ -9,9 +9,18 @@ use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+const _USERNAME_TOO_SMALL = "Le nom d'utilisateur est trop petit";
+const _USERNAME_TOO_BIG = "Le nom d'utilisateur est trop grand";
+const _MAIL_ALREADY_EXISTS = "Cette adresse mail est déjà associé à un compte ";
+const _USERNAME_ALREADY_EXISTS = "Ce nom d'utilisateur est déjà associé à un compte ";
+const _CONFIRMATION_PASSWORD = "La confirmation de mot de passe ne correspond pas au mot de passe";
+const _PASSWORD_TOO_SMALL = "Le mot de passe est trop court";
+
 
 class AuthController
 {
+
+
     public function displayLoginPage(Application $app) {
         session_start();
         $isConnected = isset($_SESSION["user"]["isConnected"]) ? $_SESSION["user"]["isConnected"] : null;
@@ -101,37 +110,100 @@ class AuthController
 
     public function displaySubscribePage(Application $app) {
         session_start();
-        $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => null]);
+        $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => null,
+                                                            "isConnected" => true,
+                                                            "isAdmin" => true]);
         return new Response($html);
     }
 
     public function displaySubscribePageErrorMsg($errorMsg, Application $app)
     {
-        if($errorMsg == "emptyField")
-            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => "Tous les champs doivent être remplis!"]);
+        if($errorMsg == "usernameTooSmall")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_TOO_SMALL, "userInfo" => $_SESSION["user"]]);
+
+        elseif ($errorMsg == "usernameTooBig")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_TOO_BIG, "userInfo" => $_SESSION["user"]]);
+
+        elseif ($errorMsg == "mailAlreadyExist")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _MAIL_ALREADY_EXISTS, "userInfo" => $_SESSION["user"]]);
+
+        elseif ($errorMsg == "usernameAlreadyExist")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _USERNAME_ALREADY_EXISTS, "userInfo" => $_SESSION["user"]]);
+
+        elseif ($errorMsg == "confirmationPassword")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _CONFIRMATION_PASSWORD, "userInfo" => $_SESSION["user"]]);
+
+        elseif ($errorMsg == "passwordTooSmall")
+            $html = $app['twig']->render('suscribe-page.twig', ["errorMsg" => _PASSWORD_TOO_SMALL, "userInfo" => $_SESSION["user"]]);
+
         return new Response($html);
     }
 
     public function subscribe(Request $request, Application $app) {
-        $firstname = htmlspecialchars($request->get('firstname', null));
-        $lastname = htmlspecialchars($request->get('lastname', null));
-        $pseudo = htmlspecialchars($request->get('username', null));
-        $password = htmlspecialchars($request->get('password', null));
-        $mail = htmlspecialchars($request->get('mail', null));
+        if(isset($_POST['mail']) && isset($_POST['username']) &&
+            isset($_POST['password']) && isset($_POST['password-confirmation']))
+        {
+            $this->initSession();
 
-        $user = new User($pseudo, md5($password), $firstname, $lastname, $mail, 0);
-        $sqlService = new SQLServices($app);
+            /* Test if data format is valid */
 
-        if($sqlService->userExist($user->getPseudo()))
-            $url = $app['url_generator']->generate('subscribeError', ["errorMsg" => "emptyField"]);
+            if (strlen($_POST['username']) < 6) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "usernameTooSmall"]);
+                return $app->redirect($url);
+            }
+            if (strlen($_POST['username']) > 16) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "usernameTooBig"]);
+                return $app->redirect($url);
+            }
 
+            /* Test if IDs are available */
+
+            $dbHandler = new SQLServices($app);
+
+            if ($dbHandler->mailExist($_POST['mail'])) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "mailAlreadyExist"]);
+                return $app->redirect($url);
+            }
+            if ($dbHandler->userExist($_POST['username'])) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "usernameAlreadyExist"]);
+                return $app->redirect($url);
+            }
+
+            /* Test if Password are valid */
+
+            if (strcmp($_POST['password'], $_POST['password-confirmation']) != 0) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "confirmationPassword"]);
+                return $app->redirect($url);
+            }
+            if (strlen($_POST['password']) < 8) {
+                $url = $app["url_generator"]->generate("subscribeError", ["errorMsg" => "passwordTooSmall"]);
+                return $app->redirect($url);
+            }
+
+            /* If all test succeeded, create a new user */
+
+            $dbHandler->addEntity(new User($_POST['username'],
+                        md5($_POST['password']),
+                            $_POST['firstname'],
+                            $_POST['lastname'],
+                            $_POST['mail'],
+                            0));
+
+            $url = $app["url_generator"]->generate("login");
+        }
         else
         {
-            $sqlService->addEntity($user);
-            $url = $app['url_generator']->generate('login');
+            session_destroy();
+            session_start();
+            $url = $app["url_generator"]->generate("home");
         }
 
         return $app->redirect($url);
+    }
+
+    private function initSession() {
+        $_SESSION["form"]["mail"] = $_POST["mail"];
+        $_SESSION["form"]["username"] = $_POST["username"];
     }
 
 
