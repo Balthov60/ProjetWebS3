@@ -54,13 +54,12 @@ $app->get('/login', 'DUT\\Controllers\\AuthController::displayLoginPage')
 $app->get('/loginError', 'DUT\\Controllers\\AuthController::displayLoginPageWithErrorMsg')
     ->bind('loginError');
 
+$app->post('/login', 'DUT\\Controllers\\AuthController::login')
+    ->bind('loginPost');
 
 $app->get('/logout', 'DUT\\Controllers\\AuthController::logout')
     ->bind('logout');
 
-
-$app->post('/login', 'DUT\\Controllers\\AuthController::login')
-    ->bind('loginPost');
 
 $app->get("/subscribe", "DUT\\Controllers\\AuthController::displaySubscribePage")
     ->bind('subscribe');

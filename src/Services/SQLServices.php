@@ -86,7 +86,7 @@ class SQLServices
     {
         $repository = $this->entityManager->getRepository("DUT\\Models\\User");
         $user = $repository->findBy(["mail" => $mail]);
-        return (isset($user));
+        return ($user != null);
     }
 
     /***************/
