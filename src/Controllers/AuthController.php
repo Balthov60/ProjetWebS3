@@ -271,4 +271,27 @@ class AuthController
         return null;
     }
 
+    /**
+     * Check if user is an admin and if not redirect him to login page.
+     *
+     * @param Request $request
+     * @param Application $app
+     * @return null|RedirectResponse
+     * @internal param Request $request
+     */
+    public static function isOwnerOrAdmin(Request $request, Application $app) {
+        $sqlServices = new SQLServices($app);
+        $commentary = $sqlServices->getCommentary($request->get("idPost"), $request->get("idCommentary"));
+
+        if ($commentary == null)
+            return new RedirectResponse($app["url_generator"]->generate("home"));
+
+        if ($app["session"]->get("user")["isAdmin"] != true &&
+            $commentary->getPseudo() != $app["session"]->get("user")["username"])
+        {
+            return new RedirectResponse($app["url_generator"]->generate("login"));
+        }
+        return null;
+    }
+
 }

@@ -93,16 +93,16 @@ $app->get("/remove/{idPost}", "DUT\\Controllers\\PostController::removePost")
 /* Commentary */
 
 $app->get("/{idPost}/editCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::displayEditCommentaryPage")
-    ->bind("editCommentary");
+    ->bind("editCommentary")->before('DUT\\Controllers\\AuthController::isOwnerOrAdmin');
 
 $app->post("/addCommentary", "DUT\\Controllers\\CommentaryController::addCommentary")
     ->bind("addCommentary")->before('DUT\\Controllers\\AuthController::isConnected');
 
 $app->post("/updateCommentary", "DUT\\Controllers\\CommentaryController::updateCommentary")
-    ->bind("updateCommentary");
+    ->bind("updateCommentary")->before('DUT\\Controllers\\AuthController::isConnected');
 
 $app->get("/{idPost}/removeCommentary/{idCommentary}", "DUT\\Controllers\\CommentaryController::removeCommentary")
-    ->bind("removeCommentary");
+    ->bind("removeCommentary")->before('DUT\\Controllers\\AuthController::isOwnerOrAdmin');
 
 $app["debug"] = true;
 $app->run();
