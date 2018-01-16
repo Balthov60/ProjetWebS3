@@ -245,10 +245,11 @@ class AuthController
     /**
      * Check if user is connected and if not redirect him to login page.
      *
+     * @param Request $request
      * @param Application $app
      * @return null|RedirectResponse
      */
-    public static function isConnected(Application $app) {
+    public static function isConnected(Request $request, Application $app) {
         if ($app["session"]->get("user")["isConnected"] != true) {
             return new RedirectResponse($app["url_generator"]->generate("login"));
         }
@@ -258,10 +259,12 @@ class AuthController
     /**
      * Check if user is an admin and if not redirect him to login page.
      *
+     * @param Request $request
      * @param Application $app
      * @return null|RedirectResponse
+     * @internal param Request $request
      */
-    public function isAdmin(Application $app) {
+    public static function isAdmin(Request $request, Application $app) {
         if ($app["session"]->get("user")["isAdmin"] != true) {
             return new RedirectResponse($app["url_generator"]->generate("login"));
         }

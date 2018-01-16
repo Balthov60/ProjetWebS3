@@ -4,6 +4,7 @@ namespace DUT\Controllers;
 
 
 use DUT\Models\Commentary;
+use DUT\Models\DateUtils;
 use DUT\Models\Post;
 use DUT\Services\SQLServices;
 use Silex\Application;
@@ -39,7 +40,7 @@ class PostController
 
         $twigParameter = ['post' => $sqlService->getPostById($idPost),
                           'userInfo' => $app['session']->get("user"),
-                          'page' => "post"];
+                          'page' => "editPost"];
         return new Response($app['twig']->render('edit-post.twig', $twigParameter));
     }
 
@@ -50,7 +51,7 @@ class PostController
     public function displayPostCreation(Application $app)
     {
         $twigParameter = ['post' => new Post("", "", "", "", ""),
-                          'userInfo' => $app['session']->get("user"), 'page' => "post"];
+                          'userInfo' => $app['session']->get("user"), 'page' => "editPost"];
 
         return new Response($app['twig']->render('edit-post.twig', $twigParameter));
     }
@@ -63,34 +64,28 @@ class PostController
     public function savePost(Request $request, Application $app)
     {
         $sqlServices = new SQLServices($app);
-        if(!is_null($request->files->get("picture"))) {
-            $dir = $request->server->get('DOCUMENT_ROOT') . "/res/images";
+
+        if(!is_null($request->files->get("picture")))
+        {
+            $dir = $request->server->get('DOCUMENT_ROOT') . "/ProjetWebBlog/res/images";
             $pictureName = uniqid() . $request->get("picture_name");
 
-            foreach ($request->files as $uploadedFile)
+            foreach ($request->files as $uploadedFile) {
+                var_dump($dir);
                 $uploadedFile->move($dir, $pictureName);
+            }
         }
-
         else
-            $pictureName = $request->get("picture_name");
-
-        if(isset($_SESSION["editedPostID"]) && !is_null($_SESSION["editedPostID"]))
         {
-            $idPost = $_SESSION["editedPostID"];
-            $_SESSION["editedPostID"] = null;
+            $pictureName = $request->get("picture_name");
         }
 
-        else
-            $idPost = null;
+        $idPost = ($request->get("idPost") != "") ? $request->get("idPost") : null;
 
-        $sqlServices->addEntity(new Post($idPost,
-            $request->get("title"),
-            $request->get("content"),
-            date("Y/m/d"),
-            $pictureName));
+        $sqlServices->addEntity(new Post($idPost, $request->get("title"), $request->get("content"),
+                                         DateUtils::getFormattedCurrentDate(), $pictureName));
 
-        return $app->redirect($app["url_generator"]->generate("post/{idPost}", ["idPost" => $idPost]));
-
+        return new RedirectResponse($app["url_generator"]->generate("home"));
     }
 
     /**

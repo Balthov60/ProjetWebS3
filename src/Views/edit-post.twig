@@ -2,21 +2,14 @@
 {% block body %}
     <div class="main-page">
         <form action="{{ app.url_generator.generate("savePost") }}" method="post" class="post" enctype="multipart/form-data">
+            <input name="postID" title="postID" type="number" value="{{ post.getIDPost() }}" hidden>
             <label class="label-title">
-                Titre :
-                <input class="create-post-title" name="title" type="text" value="{{ post.getTitle() }}"
-                    {% if post.getTitle() == "" %}
-                        placeholder="Titre du post..."
-                    {% endif %}
-                required >
+                Titre : <input class="create-post-title" name="title" type="text" placeholder="Titre du post..."
+                               value="{{ post.getTitle() }}" required>
             </label>
             <label class="label-textarea">
-                Votre post
-                <textarea class="create-post-textarea materialize-textarea" name="content" title="content" rows="4"
-                    {% if post.getTitle() == "" %}
-                        placeholder="Votre post..."
-                    {% endif %}
-                required >{{ post.getContent() }}</textarea>
+                Contenu : <textarea class="create-post-textarea materialize-textarea" name="content" title="content"
+                                    rows="4" placeholder="Votre post..." required >{{ post.getContent() }}</textarea>
             </label>
             <div class="file-field input-field">
                 <div class="btn">
@@ -25,12 +18,7 @@
                 </div>
                 <div class="file-path-wrapper">
                     <input class="file-path validate" type="text" name="picture_name" title="picture_name"
-                        {% if post.getTitle() == "" %}
-                            value="Choisissez une image"
-                        {% else %}
-                            value="{{ post.getImage() }}"
-                        {% endif %}
-                    >
+                           placeholder="Choisissez une image" value="{{ post.getImage() }}" >
                 </div>
             </div>
 

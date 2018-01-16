@@ -76,19 +76,19 @@ $app->get("/posts", "DUT\\Controllers\\PostController::displayAllPosts")
     ->bind("allPostsList");
 
 $app->get("/createPost", "DUT\\Controllers\\PostController::displayPostCreation")
-    ->bind("createPost");
+    ->bind("createPost")->before('DUT\\Controllers\\AuthController::isAdmin');
 
 $app->post("/createPost", "DUT\\Controllers\\PostController::savePost")
-    ->bind("savePost");
+    ->bind("savePost")->before('DUT\\Controllers\\AuthController::isAdmin');
 
 $app->get("/{idPost}", "DUT\\Controllers\\PostController::displayPost")
-    ->bind("{idPost}");
+    ->bind("{idPost}")->before('DUT\\Controllers\\AuthController::isConnected');
 
 $app->get("/edit/{idPost}", "DUT\\Controllers\\PostController::displayPostEdition")
-    ->bind("edit/{idPost}");
+    ->bind("edit/{idPost}")->before('DUT\\Controllers\\AuthController::isAdmin');
 
 $app->get("/remove/{idPost}", "DUT\\Controllers\\PostController::removePost")
-    ->bind("remove/{idPost}");
+    ->bind("remove/{idPost}")->before('DUT\\Controllers\\AuthController::isAdmin');
 
 /* Commentary */
 
@@ -96,7 +96,7 @@ $app->get("/{idPost}/editCommentary/{idCommentary}", "DUT\\Controllers\\Commenta
     ->bind("editCommentary");
 
 $app->post("/addCommentary", "DUT\\Controllers\\CommentaryController::addCommentary")
-    ->bind("addCommentary");
+    ->bind("addCommentary")->before('DUT\\Controllers\\AuthController::isConnected');
 
 $app->post("/updateCommentary", "DUT\\Controllers\\CommentaryController::updateCommentary")
     ->bind("updateCommentary");
