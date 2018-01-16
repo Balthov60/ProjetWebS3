@@ -75,9 +75,6 @@ $app->post("/subscribe", "DUT\\Controllers\\AuthController::subscribe")
 $app->get("/posts", "DUT\\Controllers\\PostController::displayAllPosts")
     ->bind("allPostsList");
 
-$app->post("/posts", "DUT\\Controllers\\PostController::orderPostsBy")
-    ->bind("orderPostsBy");
-
 $app->get("/createPost", "DUT\\Controllers\\PostController::displayPostCreation")
     ->bind("createPost");
 

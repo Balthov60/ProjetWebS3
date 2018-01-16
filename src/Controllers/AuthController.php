@@ -28,7 +28,8 @@ class AuthController
     public function displayLoginPage(Application $app) {
         $twigParameter = ["errorMsg" => null,
                           "userInfo" => $app["session"]->get("user"),
-                          "usernameInCookie" => $this->getUsernameInCookie()];
+                          "usernameInCookie" => $this->getUsernameInCookie(),
+                          "page" => "auth"];
 
         return new Response($app['twig']->render('login-page.twig', $twigParameter));
     }
@@ -40,7 +41,8 @@ class AuthController
     public function displayLoginPageWithErrorMsg(Application $app){
         $twigParameter = ["errorMsg" => AuthController::LOGIN_ERROR,
                           "userInfo" => $app["session"]->get("user"),
-                          "usernameInCookie" => $this->getUsernameInCookie()];
+                          "usernameInCookie" => $this->getUsernameInCookie(),
+                          "page" => "auth"];
 
         return new Response($app['twig']->render('login-page.twig', $twigParameter));
     }
@@ -114,7 +116,7 @@ class AuthController
      * @return Response
      */
     public function displaySubscribePage(Application $app) {
-        $twigParameter = ["errorMsg" => null, "userInfo" => $app["session"]->get("user")];
+        $twigParameter = ["errorMsg" => null, "userInfo" => $app["session"]->get("user"), "page" => "subscribe"];
 
         if (null === $app["session"]->get("subscribeForm"))
             $this->initEmptySubscribeSession($app);
@@ -243,12 +245,11 @@ class AuthController
     /**
      * Check if user is connected and if not redirect him to login page.
      *
-     * @param Request $request
      * @param Application $app
      * @return null|RedirectResponse
      */
-    public static function isConnected(Request $request, Application $app) {
-        if (!isset($_SESSION["user"]["connected"]) || $_SESSION["user"]["connected"] != true) {
+    public static function isConnected(Application $app) {
+        if ($app["session"]->get("user")["isConnected"] != true) {
             return new RedirectResponse($app["url_generator"]->generate("login"));
         }
         return null;
@@ -257,11 +258,12 @@ class AuthController
     /**
      * Check if user is an admin and if not redirect him to login page.
      *
+     * @param Application $app
      * @return null|RedirectResponse
      */
-    public function isAdmin() {
-        if ($_SESSION["user"]["isAdmin"] != true) {
-            return new RedirectResponse('../login');
+    public function isAdmin(Application $app) {
+        if ($app["session"]->get("user")["isAdmin"] != true) {
+            return new RedirectResponse($app["url_generator"]->generate("login"));
         }
         return null;
     }

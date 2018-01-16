@@ -227,6 +227,7 @@ body
     position: absolute;
     top: 35%;
     right: 10px;
+    z-index: 11;
 }
 
 .remove-link
@@ -234,6 +235,7 @@ body
     position: absolute;
     top: 35%;
     right: 50px;
+    z-index: 11;
 }
 
 .post-link

@@ -22,7 +22,8 @@ class PostController
         $sqlService = new SQLServices($app);
         $twigParameters = ['userInfo' => $app['session']->get("user"),
                            'post' => $sqlService->getPostById($idPost),
-                           'commentaries' =>  $sqlService->getCommentaryForPost($idPost)];
+                           'commentaries' =>  $sqlService->getCommentaryForPost($idPost),
+                           'page' => "post"];
 
         return new Response($app['twig']->render('post-page.twig', $twigParameters));
     }
@@ -35,8 +36,11 @@ class PostController
     public function displayPostEdition(Application $app, $idPost) {
         $sqlService = new SQLServices($app);
         $_SESSION["editedPostID"] = $idPost;
-        return new Response($app['twig']->render('edit-post.twig',
-                            ['post' => $sqlService->getPostById($idPost)]));
+
+        $twigParameter = ['post' => $sqlService->getPostById($idPost),
+                          'userInfo' => $app['session']->get("user"),
+                          'page' => "post"];
+        return new Response($app['twig']->render('edit-post.twig', $twigParameter));
     }
 
     /**
@@ -45,8 +49,10 @@ class PostController
      */
     public function displayPostCreation(Application $app)
     {
-        return new Response($app['twig']->render('edit-post.twig',
-            ['post' => new Post("", "", "", "", "")]));
+        $twigParameter = ['post' => new Post("", "", "", "", ""),
+                          'userInfo' => $app['session']->get("user"), 'page' => "post"];
+
+        return new Response($app['twig']->render('edit-post.twig', $twigParameter));
     }
 
     /**
@@ -56,7 +62,6 @@ class PostController
      */
     public function savePost(Request $request, Application $app)
     {
-        session_start();
         $sqlServices = new SQLServices($app);
         if(!is_null($request->files->get("picture"))) {
             $dir = $request->server->get('DOCUMENT_ROOT') . "/res/images";
@@ -84,7 +89,7 @@ class PostController
             date("Y/m/d"),
             $pictureName));
 
-        return $app->redirect($app["url_generator"]->generate("home"));
+        return $app->redirect($app["url_generator"]->generate("post/{idPost}", ["idPost" => $idPost]));
 
     }
 
@@ -97,7 +102,7 @@ class PostController
         $sqlServices = new SQLServices($app);
         $sqlServices->removePost($idPost);
 
-        return new RedirectResponse($app["url_generator"]->generate("", $_SESSION["user"]));
+        return new RedirectResponse($app["url_generator"]->generate("home"));
     }
 
 
@@ -112,28 +117,7 @@ class PostController
         $sqlServices = new SQLServices($app);
         $posts = $sqlServices->getAllPosts("DESC");
 
-        $twigParameter = ['posts' => $posts, 'userInfo' => $app["session"]->get("user")];
+        $twigParameter = ['posts' => $posts, 'userInfo' => $app["session"]->get("user"), 'page' => "posts"];
         return new Response($app['twig']->render('list-all-cards.twig', $twigParameter));
-    }
-
-    /**
-     * @param Request $request
-     * @param Application $app
-     * @return RedirectResponse|Response
-     */
-    public function orderPostsBy(Request $request, Application $app)
-    {
-        if ($request->get("orderBy") == "lastToOld")
-        {
-            return $app->redirect($app['url_generator']->generate('allPosts'));
-        }
-        else
-        {
-            $sqlServices = new SQLServices($app);
-            $posts = $sqlServices->getAllPosts("ASC");
-
-            $twigParameter = ['posts' => $posts, 'userInfo' => $app["session"]->get("user")];
-            return new Response($app['twig']->render('list-all-cards.twig', $twigParameter));
-        }
     }
 }

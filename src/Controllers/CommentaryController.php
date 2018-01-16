@@ -22,7 +22,8 @@ class CommentaryController
         $sqlServices = new SQLServices($app);
 
         $twigParameters = ['userInfo' => $app['session']->get("user"),
-                           'commentary' => $sqlServices->getCommentary($idPost, $idCommentary)];
+                           'commentary' => $sqlServices->getCommentary($idPost, $idCommentary),
+                           'page' => "commentary"];
         return new Response($app['twig']->render('edit-commentary.twig', $twigParameters));
     }
 
