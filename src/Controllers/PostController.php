@@ -78,7 +78,7 @@ class PostController
             $pictureName = $request->get("picture_name");
         }
 
-        $idPost = ($request->get("idPost") != "") ? $request->get("idPost") : null;
+        $idPost = ($request->get("postID") != "") ? $request->get("postID") : null;
 
         $sqlServices->addEntity(new Post($idPost, $request->get("title"), $request->get("content"),
                                          DateUtils::getFormattedCurrentDate(), $pictureName));

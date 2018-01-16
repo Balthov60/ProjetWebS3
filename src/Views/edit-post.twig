@@ -1,16 +1,18 @@
 {% extends 'layout.twig' %}
 {% block body %}
-    <div class="main-page">
+    <div class="main-page-centered">
         <form action="{{ app.url_generator.generate("savePost") }}" method="post" class="post" enctype="multipart/form-data">
             <input name="postID" title="postID" type="number" value="{{ post.getIDPost() }}" hidden>
-            <label class="label-title">
-                Titre : <input class="create-post-title" name="title" type="text" placeholder="Titre du post..."
-                               value="{{ post.getTitle() }}" required>
-            </label>
-            <label class="label-textarea">
-                Contenu : <textarea class="create-post-textarea materialize-textarea" name="content" title="content"
-                                    rows="4" placeholder="Votre post..." required >{{ post.getContent() }}</textarea>
-            </label>
+            <div class="input-container">
+                <label class="label-title">Titre : </label>
+                <input class="create-post-title" name="title" type="text" placeholder="Titre du post..."
+                                                                          value="{{ post.getTitle() }}" required>
+            </div>
+            <div class="input-container">
+                <label class="label-textarea">Contenu : </label>
+                <textarea class="create-post-textarea materialize-textarea" name="content" title="content"
+                          placeholder="Votre post..." required >{{ post.getContent() }}</textarea>
+            </div>
             <div class="file-field input-field">
                 <div class="btn">
                     <span>Photo</span>
