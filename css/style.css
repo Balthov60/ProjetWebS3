@@ -514,6 +514,65 @@ select
     padding-top: 10px;
 }
 
+/* Post Creation-Edition */
+
+.create-post-submit
+{
+    width: 23%;
+    margin: 30px auto;
+    margin-top: 50px;
+    background-color: #FFD245;
+}
+
+.create-post-submit:hover
+{
+    background-color: #ffe842;
+}
+
+.create-post-title
+{
+    text-align: center;
+}
+
+.label-title
+{
+    width: 30%;
+    margin: 10px auto;
+}
+
+.label-textarea
+{
+    width: 80%;
+    margin: 10px auto;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.create-post-title, .create-post-textarea
+{
+    color: rgba(43,43,43,0.85);
+}
+
+.input-field
+{
+    width: 80%;
+    margin: 10px auto;
+    margin-top: 50px;
+}
+
+.input-field .btn
+{
+    width: 16%;
+    height: auto;
+    padding: 0;
+    background-color: #FFD245;
+}
+
+.input-field .btn:hover
+{
+    background-color: #ffe842;
+}
+
 /* Commentary */
 
 /* for all .Commentary go to .post */
