@@ -74,11 +74,19 @@ class SQLServices
         return (isset($user));
     }
 
+
     public function isAdmin($username)
     {
         $repository = $this->entityManager->getRepository("DUT\\Models\\User");
         $user = $repository->find($username);
         return ($user->isAdmin() == 1);
+    }
+
+    public function mailExist($mail)
+    {
+        $repository = $this->entityManager->getRepository("DUT\\Models\\User");
+        $user = $repository->findBy(["mail" => $mail]);
+        return (isset($user));
     }
 
     /***************/

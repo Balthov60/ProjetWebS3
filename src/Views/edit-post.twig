@@ -1,13 +1,46 @@
 {% extends 'layout.twig' %}
 {% block body %}
     <div class="main-page">
-        <form action="" method="post" class="post">
-            <label>
-                Title :
-                <input name="title" type="text" value="{{ post.getTitle() }}">
+        <form action="{{ app.url_generator.generate("savePost") }}" method="post" class="post" enctype="multipart/form-data">
+            <label class="label-title">
+                Titre :
+                <input class="create-post-title" name="title" type="text" value="{{ post.getTitle() }}"
+                    {% if post.getTitle() == "" %}
+                        placeholder="Titre du post..."
+                    {% endif %}
+                required >
             </label>
-            <textarea name="content" title="content" placeholder="Votre post..." rows="4">{{ post.getContent() }}</textarea>
-            <input type="submit" name="submit" class="waves-effect waves-light btn">
+            <label class="label-textarea">
+                Votre post
+                <textarea class="create-post-textarea materialize-textarea" name="content" title="content" rows="4"
+                    {% if post.getTitle() == "" %}
+                        placeholder="Votre post..."
+                    {% endif %}
+                required >{{ post.getContent() }}</textarea>
+            </label>
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>Photo</span>
+                    <input type="file" name="picture">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" name="picture_name"
+                        {% if post.getTitle() == "" %}
+                            value="Choisissez une image"
+                        {% else %}
+                            value="{{ post.getImage() }}"
+                        {% endif %}
+                    >
+                </div>
+            </div>
+
+            <input type="submit" name="submit" class="waves-effect waves-light btn create-post-submit"
+                {% if post.getTitle() == "" %}
+                    value="Créer le post"
+                {% else %}
+                    value="Modifier le post"
+                {% endif %}
+            >
         </form>
     </div>
 {% endblock %}
