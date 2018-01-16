@@ -19,33 +19,47 @@ const _PASSWORD_TOO_SMALL = "Le mot de passe est trop court";
 
 class AuthController
 {
+    const LOGIN_ERROR = "Nom d'utilisateur ou mot de passe invalide";
 
-
+    /**
+     * @param Application $app
+     * @return Response
+     */
     public function displayLoginPage(Application $app) {
-        session_start();
-        $isConnected = isset($_SESSION["user"]["isConnected"]) ? $_SESSION["user"]["isConnected"] : null;
-        $isAdmin = isset($_SESSION["user"]["isAdmin"]) ? $_SESSION["user"]["isAdmin"] : null;
+        $twigParameter = ["errorMsg" => null,
+                          "userInfo" => $app["session"]->get("user"),
+                          "usernameInCookie" => $this->getUsernameInCookie()];
 
-        $pseudo = (isset($_COOKIE['pseudo'])) ? $_COOKIE['pseudo'] : null;
-
-        $html = $app['twig']->render('login-page.twig', ["errorMsg" => null,
-                                                        "isConnected" => $isConnected,
-                                                        "isAdmin" => $isAdmin,
-                                                        "pseudo" => $pseudo]);
-        return new Response($html);
+        return new Response($app['twig']->render('login-page.twig', $twigParameter));
     }
 
-    public function displayLoginPageWithErrorMsg($error, Application $app)
+    /**
+     * @param Application $app
+     * @return Response
+     */
+    public function displayLoginPageWithErrorMsg(Application $app){
+        $twigParameter = ["errorMsg" => AuthController::LOGIN_ERROR,
+                          "userInfo" => $app["session"]->get("user"),
+                          "usernameInCookie" => $this->getUsernameInCookie()];
+
+        return new Response($app['twig']->render('login-page.twig', $twigParameter));
+    }
+
+    /**
+     * @return string : username if exist in cookie, empty elsewhere.
+     */
+    private function getUsernameInCookie()
     {
-       if($error == "invalidID")
-            $html = $app['twig']->render('login-page.twig', ["errorMsg" => "Nom d'utilisateur ou mot de passe invalide"]);
-
-        return new Response($html);
+        return (isset($_COOKIE['username'])) ? $_COOKIE['username'] : "";
     }
 
-    public function checkRememberMe() {
+    /**
+     * Check if "Remember-me" had been checked and update cookies.
+     * @param $username
+     */
+    private function updateCookies($username) {
         if (isset($_POST['remember-me'])) {
-            setcookie("username", $_POST['username'], time() + (86400 * 30), '/');
+            setcookie("username", $username, time() + (86400 * 30), '/');
         }
         else
         {
@@ -53,57 +67,44 @@ class AuthController
         }
     }
 
+    /**
+     * @param Request $request
+     * @param Application $app
+     * @return RedirectResponse
+     */
     public function login(Request $request, Application $app) {
         $sqlService = new SQLServices($app);
-        $pseudo = $request->get("pseudo");
+        $username = $request->get("username");
         $password = $request->get("password");
 
-        if(isset($pseudo) && isset($password)) {
-            if ($sqlService->userExist($pseudo, $password))
+        if(isset($username) && isset($password)) {
+            if ($sqlService->userExistWithCorrectPassword($username, $password))
             {
-                session_start();
-                $_SESSION['user']['isConnected'] = true;
-                $_SESSION['user']['isAdmin'] = false;
-                $_SESSION['user']['pseudo'] = $pseudo;
-
-                $this->checkRememberMe();
-                $url = $app['url_generator']->generate('home');
-            }
-            elseif ($sqlService->isAdmin($pseudo, $password))
-            {
-                session_start();
-                $_SESSION['user']['isConnected'] = true;
-                $_SESSION['user']['isAdmin'] = true;
-
-                $this->checkRememberMe();
-                $url = $app['url_generator']->generate('home');
+                $app["session"]->set("user", ["isConnected" => true,
+                                              "username" => $username,
+                                              "isAdmin" => $sqlService->isAdmin($username)]);
+                $this->updateCookies($username);
+                return new RedirectResponse($app['url_generator']->generate('home'));
             }
             else
             {
-                $_SESSION['user']['isConnected'] = false;
-                if (isset($_COOKIE['pseudo']) && strcmp($pseudo, $_COOKIE["pseudo"]) != 0)
+                // Remove Cookies if user try to log with another account.
+                if (isset($_COOKIE['pseudo']) && strcmp($username, $_COOKIE["pseudo"]) != 0)
                     setcookie("pseudo", "", time() - 3600, '/');
-
-                $url = $app['url_generator']->generate('login', ["error" => "invalidID"]);
-
             }
         }
-        else
-        {
-            $url = $app['url_generator']->generate('login');
-        }
-        return $app->redirect($url);
+        return new RedirectResponse($app['url_generator']->generate('loginError'));
     }
 
-
-
+    /**
+     * @param Application $app
+     * @return RedirectResponse
+     */
     public function logout(Application $app)
     {
-        session_start();
-        $_SESSION["user"]["isConnected"] = false;
-        $_SESSION["user"]["isAdmin"] = false;
-        $url = $app["url_generator"]->generate("login");
-        return $app->redirect($url);
+        $app["session"]->set("user", ["username" => "", "isConnected" => false, "isAdmin" => false]);
+
+        return new RedirectResponse($app["url_generator"]->generate("home"));
     }
 
 

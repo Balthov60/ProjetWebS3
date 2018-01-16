@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col s12">
                         <label for="username" >Nom d'utilisateur</label>
-                        <input id="username" type="text" class="validate" name="pseudo" value="{{ pseudo }}">
+                        <input id="username" type="text" class="validate" name="username" value="{{ usernameInCookie }}">
                     </div>
                 </div>
                 <div class="row">
@@ -17,7 +17,8 @@
                     </div>
                 </div>
                 <p>
-                    <input type="checkbox" id="remember-me" name="remember-me" />
+                    <input type="checkbox" id="remember-me" name="remember-me"
+                            {% if usernameInCookie != "" %} checked {% endif %}/>
                     <label for="remember-me">Se souvenir de moi</label>
                 </p>
                 <div class="submit-container">

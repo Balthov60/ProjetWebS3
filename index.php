@@ -31,14 +31,11 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/src/Views',
 ]);
 
-/*********************/
-/* Init Session Data */
-/*********************/
+/* Session */
 
-$_SESSION["user"]["username"] = "Balthov60";
-$_SESSION["user"]["isConnected"] = "true";
-$_SESSION["user"]["isAdmin"] = "true";
-
+$app->register(new Silex\Provider\SessionServiceProvider());
+if (null === $app["session"]->get("user"))
+    $app["session"]->set("user", ["username" => "", "isConnected" => false, "isAdmin" => false]);
 
 /*****************/
 /* Define Routes */
@@ -54,12 +51,13 @@ $app->get('', 'DUT\\Controllers\\HomeController::displayHomePage')
 $app->get('/login', 'DUT\\Controllers\\AuthController::displayLoginPage')
     ->bind('login');
 
+$app->get('/loginError', 'DUT\\Controllers\\AuthController::displayLoginPageWithErrorMsg')
+    ->bind('loginError');
+
+
 $app->get('/logout', 'DUT\\Controllers\\AuthController::logout')
     ->bind('logout');
 
-
-$app->get('/login/{errorMsg}', 'DUT\\Controllers\\AuthController::displayLoginPageWithErrorMsg')
-    ->bind('loginError');
 
 $app->post('/login', 'DUT\\Controllers\\AuthController::login')
     ->bind('loginPost');
