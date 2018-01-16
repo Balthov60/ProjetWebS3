@@ -25,6 +25,8 @@ class SQLServices
     }
 
     /**
+     * Add or update an entity.
+     *
      * @param $entity mixed
      *
      * @return void
@@ -74,7 +76,10 @@ class SQLServices
         return (isset($user));
     }
 
-
+    /**
+     * @param $username
+     * @return bool
+     */
     public function isAdmin($username)
     {
         $repository = $this->entityManager->getRepository("DUT\\Models\\User");
@@ -82,6 +87,10 @@ class SQLServices
         return ($user->isAdmin() == 1);
     }
 
+    /**
+     * @param $mail
+     * @return bool
+     */
     public function mailExist($mail)
     {
         $repository = $this->entityManager->getRepository("DUT\\Models\\User");
@@ -105,6 +114,7 @@ class SQLServices
     /**
      * return all posts added by the user;
      *
+     * @param $orderBy
      * @return Post[]
      */
     public function getAllPosts($orderBy) {
@@ -155,7 +165,6 @@ class SQLServices
 
         if (isset($items)) {
             foreach ($items as $item) {
-                $this->removeReactionFor($idPost, $item->getIdCommentary());
                 $this->entityManager->remove($item);
             }
             $this->entityManager->flush();
@@ -233,28 +242,5 @@ class SQLServices
         }
 
         return $maxID;
-    }
-
-    /*******************/
-    /* Reaction Linked */
-    /*******************/
-
-    /**
-     * @param $idPost integer
-     * @param $idComment
-     *
-     * @return void
-     */
-    public function removeReactionFor($idPost, $idComment)
-    {
-        $repository = $this->entityManager->getRepository("DUT\\Models\\Reaction");
-        $items = $repository->findBy(["idPost" => $idPost, "idComment" => $idComment]);
-
-        if (isset($items)) {
-            foreach ($items as $item) {
-                $this->entityManager->remove($item);
-            }
-            $this->entityManager->flush();
-        }
     }
 }

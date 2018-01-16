@@ -3,7 +3,6 @@
 namespace DUT\Controllers;
 
 
-use DUT\Models\Commentary;
 use DUT\Models\DateUtils;
 use DUT\Models\Post;
 use DUT\Services\SQLServices;
@@ -65,13 +64,12 @@ class PostController
     {
         $sqlServices = new SQLServices($app);
 
-        if(!is_null($request->files->get("picture")))
+        if(!is_null($request->files->get("picture"))) // Save Picture
         {
             $dir = $request->server->get('DOCUMENT_ROOT') . "/ProjetWebBlog/res/images";
             $pictureName = uniqid() . $request->get("picture_name");
 
             foreach ($request->files as $uploadedFile) {
-                var_dump($dir);
                 $uploadedFile->move($dir, $pictureName);
             }
         }
@@ -104,6 +102,8 @@ class PostController
     /* List Post Page */
 
     /**
+     * Display a list of the articles.
+     *
      * @param Application $app
      * @return Response
      */

@@ -46,7 +46,7 @@ if (null === $app["session"]->get("user"))
 $app->get('', 'DUT\\Controllers\\HomeController::displayHomePage')
     ->bind('home');
 
-/* User */
+/* Auth */
 
 $app->get('/login', 'DUT\\Controllers\\AuthController::displayLoginPage')
     ->bind('login');
@@ -60,14 +60,15 @@ $app->post('/login', 'DUT\\Controllers\\AuthController::login')
 $app->get('/logout', 'DUT\\Controllers\\AuthController::logout')
     ->bind('logout');
 
+/* Subscribe */
 
-$app->get("/subscribe", "DUT\\Controllers\\AuthController::displaySubscribePage")
+$app->get("/subscribe", "DUT\\Controllers\\SubscribeController::displaySubscribePage")
     ->bind('subscribe');
 
-$app->get("/subscribe/{errorMsg}", "DUT\\Controllers\\AuthController::displaySubscribePageErrorMsg")
+$app->get("/subscribe/{errorMsg}", "DUT\\Controllers\\SubscribeController::displaySubscribePageErrorMsg")
     ->bind('subscribeError');
 
-$app->post("/subscribe", "DUT\\Controllers\\AuthController::subscribe")
+$app->post("/subscribe", "DUT\\Controllers\\SubscribeController::subscribe")
     ->bind('subscribePost');
 
 /* Post */

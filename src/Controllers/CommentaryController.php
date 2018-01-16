@@ -44,7 +44,7 @@ class CommentaryController
     }
 
     /**
-     * Add commentary & redirect to post page.
+     * update commentary & redirect to post page.
      *
      * @param Application $app
      * @return RedirectResponse
