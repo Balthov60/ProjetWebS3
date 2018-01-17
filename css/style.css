@@ -417,6 +417,11 @@ select
     margin-right: 5px;
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+>>>>>>> cb4d7aff71dd6370dbbace9b63746d604eec4333
 /* Login Page */
 
 .form-container
@@ -457,12 +462,16 @@ select
     background-color: #ffe842;
 }
 
+<<<<<<< HEAD
+=======
+=======
 .error-msg
 {
     margin: 0 auto 30px;
     color: red;
 }
 
+>>>>>>> cb4d7aff71dd6370dbbace9b63746d604eec4333
 /* Post */
 
 .commentary-edit
@@ -664,3 +673,7 @@ select
 {
     height: auto;
 }
+<<<<<<< HEAD
+>>>>>>> 8d1ea29527a3d31976af7ec861b27108f14d4e2b
+=======
+>>>>>>> cb4d7aff71dd6370dbbace9b63746d604eec4333
