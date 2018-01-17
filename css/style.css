@@ -26,7 +26,7 @@ nav .brand-logo, h1, h2 {
 {
     color: #FFD245;
 }
-.second-color-button:hover
+.second-color-button:hover, .second-color-button:focus
 {
     color: #ffe842;
 }
@@ -51,13 +51,18 @@ nav .brand-logo
     margin-left: 50px;
 }
 
+.red:hover
+{
+    color: #ff0007;
+}
+
 .nav-wrapper li a, .commentary-form input
 {
     background-color: #FFD245;
     color: #262626
 }
 
-.nav-wrapper li a:hover, .commentary-form input:hover, .nav-wrapper li a:hover, .commentary-form input:focus
+.nav-wrapper li a:hover, .commentary-form input:hover, .commentary-form input:focus, .nav-wrapper li a:focus
 {
     background-color: #ffe842;
     color: #262626
@@ -69,7 +74,7 @@ nav .brand-logo
 {
     background-color: #FFD245;
 }
-.btn-floating:hover
+.btn-floating:hover, .btn-floating:focus
 {
     background-color: #ffe842;
 }
@@ -206,7 +211,7 @@ body
     background: #FFD245;
     color: #262626;
 }
-.card-action a:hover
+.card-action a:hover, .card-action a:focus
 {
     margin: auto 0;
     background: #ffe842;
