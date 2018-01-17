@@ -24,9 +24,14 @@
                     <i class="large material-icons">add</i>
                 </a>
             {% elseif page != "editPost" %}
-                <a href="{{ app.url_generator.generate("edit/{idPost}", {"idPost" : post.getIdPost()}) }}" class="btn-floating btn-large waves-effect waves-light">
-                    <i class="large material-icons">edit</i>
-                </a>
+                <div class="floating-container">
+                    <a href="{{ app.url_generator.generate("remove/{idPost}", {"idPost" : post.getIdPost()}) }}" class="btn-floating btn-large red waves-effect waves-light">
+                        <i class="large material-icons">remove</i>
+                    </a>
+                    <a href="{{ app.url_generator.generate("edit/{idPost}", {"idPost" : post.getIdPost()}) }}" class="btn-floating btn-large waves-effect waves-light">
+                        <i class="large material-icons">edit</i>
+                    </a>
+                </div>
             {% endif %}
         </div>
    {% endif %}

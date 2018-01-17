@@ -5228,6 +5228,7 @@ small {
 .btn-floating.btn-large {
   width: 56px;
   height: 56px;
+  margin-top: 10px;
 }
 
 .btn-floating.btn-large.halfway-fab {

@@ -305,27 +305,16 @@ select
 }
 
 
-/* Side navbar */
-
-
-.side-nav
+.floating-container
 {
-    background-color: #262626;
-    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
 }
 
-.side-nav li a
+.floating-container a
 {
-    font-size: 1.2em;
-    color: #FFD245;
+    margin-top: 10px;
 }
-
-.side-nav li .material-icons
-{
-    font-size: 30px;
-    color: white;
-}
-
 
 /* About section */
 
@@ -568,7 +557,7 @@ select
 
 .label-title
 {
-    width: 10%;
+    width: 15%;
     margin: 10px 0;
     text-align: center;
 
@@ -576,7 +565,7 @@ select
 
 .label-textarea
 {
-    width: 10%;
+    width: 15%;
     margin: 10px 0;
     overflow-y: auto;
     text-align: center;
@@ -594,7 +583,7 @@ select
 
 .input-field .btn
 {
-    width: 10%;
+    width: 15%;
     height: auto;
     padding: 0;
     background-color: #FFD245;
